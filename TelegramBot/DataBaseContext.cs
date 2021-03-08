@@ -56,5 +56,27 @@ namespace TelegramBot
                 Console.WriteLine(e);
             }
         }
+
+        public static void DeleteOldPanel(MessageEventArgs messageEventArgs)
+        {
+            var connection = ConnectSqLite();
+            connection.Open();
+            SQLiteCommand sqLiteCommand = connection.CreateCommand();
+            sqLiteCommand.CommandText = $"INSERT INTO UsersInfo WHERE UserId IS {messageEventArgs.Message.From.Id}";
+            connection.Close();
+        }
+
+        public static void SaveMessageId(MessageEventArgs messageEventArgs, int messageId)
+        {
+            var connection = ConnectSqLite();
+            connection.Open();
+            SQLiteCommand sqLiteCommand = connection.CreateCommand();
+            sqLiteCommand.CommandText = $"INSERT INTO UsersInfo VALUES(@MessageId) WHERE UserId IS {messageEventArgs.Message.From.Id}";
+            sqLiteCommand.Parameters.AddWithValue("@MessageId", messageId);
+            sqLiteCommand.ExecuteNonQuery();
+            connection.Close();
+        }
+        
+    
     }
 }
