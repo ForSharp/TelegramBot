@@ -7,8 +7,6 @@ namespace TelegramBot
     public static class ProcessingTextMessages
     {
         
-        
-        
         public static async void CreateKeyboardButtons(MessageEventArgs messageEventArgs)
         {
             try
@@ -35,5 +33,7 @@ namespace TelegramBot
                 Console.WriteLine($"Error: {ex}");
             }
         }
+        
+        
     }
 }

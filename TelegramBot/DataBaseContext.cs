@@ -10,7 +10,7 @@ namespace TelegramBot
 
         private static SQLiteConnection ConnectSqLite()
         {
-            if (_connectionDataBase == null)
+            //if (_connectionDataBase == null)
             {
                 try
                 {
@@ -57,26 +57,45 @@ namespace TelegramBot
             }
         }
 
-        public static void DeleteOldPanel(MessageEventArgs messageEventArgs)
+
+        //public static Action<MessageEventArgs> DeleteAction = (DeleteOldPanel);
+        public static async void DeleteOldPanel(MessageEventArgs messageEventArgs)
         {
-            var connection = ConnectSqLite();
-            connection.Open();
-            SQLiteCommand sqLiteCommand = connection.CreateCommand();
-            sqLiteCommand.CommandText = $"INSERT INTO UsersInfo WHERE UserId IS {messageEventArgs.Message.From.Id}";
-            connection.Close();
+            try
+            {
+                var connection = ConnectSqLite();
+                connection.Open();
+                SQLiteCommand sqLiteCommand = connection.CreateCommand();
+                sqLiteCommand.CommandText = $"SELECT MessageId FROM UsersInfo WHERE UserId IS {messageEventArgs.Message.From.Id}";
+                int messageId = Convert.ToInt32(sqLiteCommand.ExecuteScalar());
+                await BotLogic.Bot.DeleteMessageAsync(messageEventArgs.Message.From.Id, messageId);
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            
         }
 
         public static void SaveMessageId(MessageEventArgs messageEventArgs, int messageId)
         {
-            var connection = ConnectSqLite();
-            connection.Open();
-            SQLiteCommand sqLiteCommand = connection.CreateCommand();
-            sqLiteCommand.CommandText = $"INSERT INTO UsersInfo VALUES(@MessageId) WHERE UserId IS {messageEventArgs.Message.From.Id}";
-            sqLiteCommand.Parameters.AddWithValue("@MessageId", messageId);
-            sqLiteCommand.ExecuteNonQuery();
-            connection.Close();
+            try
+            {
+                var connection = ConnectSqLite();
+                connection.Open();
+                SQLiteCommand sqLiteCommand = connection.CreateCommand();
+                sqLiteCommand.CommandText = "INSERT INTO UsersInfo VALUES(@UserId, @MessageId)";
+                sqLiteCommand.Parameters.AddWithValue("@UserId", messageEventArgs.Message.From.Id);
+                sqLiteCommand.Parameters.AddWithValue("@MessageId", messageId);
+                sqLiteCommand.ExecuteNonQuery();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
-        
-    
+
     }
 }

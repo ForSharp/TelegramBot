@@ -3,6 +3,7 @@ using System.Text;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using TelegramBot.InlinePanels;
 
 namespace TelegramBot
 {
@@ -117,6 +118,8 @@ namespace TelegramBot
             {
                 DataBaseContext.RegisterUser(messageEventArgs);
                 ProcessingTextMessages.CreateKeyboardButtons(messageEventArgs);
+                InlineMenu inlineMenu = new InlineMenu();
+                inlineMenu.RunCreatingProcess(messageEventArgs);
             }
         }
 
