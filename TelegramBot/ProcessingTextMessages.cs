@@ -1,14 +1,13 @@
 ﻿using System;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types.ReplyMarkups;
+using TelegramBot.InlinePanels;
 
 namespace TelegramBot
 {
     public static class ProcessingTextMessages
     {
-        
-        
-        public static async void CreateKeyboardButtons(MessageEventArgs messageEventArgs)
+        private static async void CreateKeyboardButtons(MessageEventArgs messageEventArgs)
         {
             try
             {
@@ -35,7 +34,28 @@ namespace TelegramBot
                 Console.WriteLine($"Error: {ex}");
             }
         }
-        
+
+        public static void CreateStartStatement(MessageEventArgs messageEventArgs)
+        {
+            CreateKeyboardButtons(messageEventArgs);
+            var inlineMenu = new InlineMenu();
+            inlineMenu.RunCreatingProcess(messageEventArgs);
+        }
+
+        public static void ShowInTheMap()
+        {
+            
+        }
+
+        public static void SendContacts()
+        {
+            
+        }
+
+        public static void GetUserNumber()
+        {
+            
+        }
         
     }
 }

@@ -111,31 +111,32 @@ namespace TelegramBot
 
         private static void HandleMessageTypeText(string sender, MessageEventArgs messageEventArgs)
         {
+            
+            
             Console.WriteLine($"{sender} отправил текстовое сообщение: {messageEventArgs.Message.Text}", true, Encoding.Unicode);
             
-            
-            switch (messageEventArgs.Message.Text)
+            switch (messageEventArgs.Message.Text.ToLower().Trim())
             {
                 case "/start":
+                    DataBaseContext.RegisterUser(messageEventArgs);
+                    ProcessingTextMessages.CreateStartStatement(messageEventArgs);
+                    break;
+                case "меню":
+                    var inlineMenu = new InlineMenu();
+                    inlineMenu.RunCreatingProcess(messageEventArgs);
+                    break;
+                case "контакты":
+                    ProcessingTextMessages.SendContacts();
+                    break;
+                case "заказать звонок":
+                    ProcessingTextMessages.GetUserNumber();
+                    break;
+                case "показать на карте":
+                    ProcessingTextMessages.ShowInTheMap();
                     break;
             }
             
-            if (messageEventArgs.Message.Text == "/start")
-            {
-                
-                DataBaseContext.RegisterUser(messageEventArgs);
-
-                
-                ProcessingTextMessages.CreateKeyboardButtons(messageEventArgs);
-                InlineMenu inlineMenu = new InlineMenu();
-                inlineMenu.RunCreatingProcess(messageEventArgs);
-            }
-
-            if (messageEventArgs.Message.Text == "Меню")
-            {
-                InlineMenu inlineMenu = new InlineMenu();
-                inlineMenu.RunCreatingProcess(messageEventArgs);
-            }
+            
         }
 
         
