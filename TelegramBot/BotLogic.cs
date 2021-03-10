@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Configuration;
 using System.Text;
 using Telegram.Bot;
 using Telegram.Bot.Args;
-using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 
 namespace TelegramBot
 {
-    internal static class BotLogic
+    public static class BotLogic
     {
         public static TelegramBotClient Bot;
         
@@ -44,30 +41,21 @@ namespace TelegramBot
                 Console.WriteLine(e);
             }
             
-            
-            
-
             Bot.OnMessage += BotOnMessage;
             
             var user = Bot.GetMeAsync().Result;
             Console.WriteLine(user.FirstName);
             Bot.StartReceiving();
-            var commandStop = Console.ReadLine();
-            if (commandStop == "stop")
-            {
-                Bot.StopReceiving();
-            }
+            Console.ReadLine();
+            Bot.StopReceiving();
         }
 
-
-
-        private static async void BotOnMessage(object sender, MessageEventArgs messageEventArgs)
+        private static void BotOnMessage(object sender, MessageEventArgs messageEventArgs)
         {
             var senderName = GetAvailableSenderName(messageEventArgs);
             
             MessageHandler.HandleSenderMessage(senderName, messageEventArgs);
-
-
+            
         }
 
         /* Senders may not have last name and username.
@@ -92,14 +80,8 @@ namespace TelegramBot
                 return senderName;
             }
 
-            
             senderName = $"{messageEventArgs.Message.From.FirstName} {messageEventArgs.Message.From.LastName} {messageEventArgs.Message.From.Username}";
             return senderName;
-            
-            
         }
-
-        
-    
     }
 }

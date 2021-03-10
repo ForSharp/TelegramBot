@@ -2,7 +2,6 @@
 using System.Text;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.InlinePanels;
 
 namespace TelegramBot
@@ -114,10 +113,26 @@ namespace TelegramBot
         {
             Console.WriteLine($"{sender} отправил текстовое сообщение: {messageEventArgs.Message.Text}", true, Encoding.Unicode);
             
+            
+            switch (messageEventArgs.Message.Text)
+            {
+                case "/start":
+                    break;
+            }
+            
             if (messageEventArgs.Message.Text == "/start")
             {
+                
                 DataBaseContext.RegisterUser(messageEventArgs);
+
+                
                 ProcessingTextMessages.CreateKeyboardButtons(messageEventArgs);
+                InlineMenu inlineMenu = new InlineMenu();
+                inlineMenu.RunCreatingProcess(messageEventArgs);
+            }
+
+            if (messageEventArgs.Message.Text == "Меню")
+            {
                 InlineMenu inlineMenu = new InlineMenu();
                 inlineMenu.RunCreatingProcess(messageEventArgs);
             }

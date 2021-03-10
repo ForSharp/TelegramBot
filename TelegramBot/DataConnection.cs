@@ -9,8 +9,7 @@ namespace TelegramBot
         private const string TokenInFile = "TelegramBotToken=";
         private const string PathInFile = "Data Source=";
         
-        private static FileStream _dataFile = null;
-        
+        private static FileStream _dataFile;
         
         public static void CreateDataFile()
         {
@@ -49,7 +48,6 @@ namespace TelegramBot
             FillInDataFile();
         }
 
-
         private static void FillInDataFile()
         {
             var dataFileOut = new StreamWriter(DataFilePath);
@@ -66,7 +64,6 @@ namespace TelegramBot
                 
                 dataFileOut.WriteLine($"{TokenInFile}{telegramBotToken}");
                 dataFileOut.WriteLine($"{PathInFile}{pathToDataBase}");
-                
             }
             catch (IOException e)
             {

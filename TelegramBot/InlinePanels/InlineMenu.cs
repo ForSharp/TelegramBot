@@ -1,15 +1,13 @@
-﻿using System.Threading.Tasks;
-using Telegram.Bot.Args;
-using Telegram.Bot.Types;
+﻿using Telegram.Bot.Args;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace TelegramBot.InlinePanels
 {
     public class InlineMenu : InlinePanel
     {
-        protected override void CreateInlinePanel(MessageEventArgs messageEventArgs, out int message)
+        protected override async void CreateInlinePanel(MessageEventArgs messageEventArgs)
         {
-            var inlineKeyBoard = new InlineKeyboardMarkup(new[]
+            var inlineKeyboard = new InlineKeyboardMarkup(new[]
             {
                 new[]
                 {
@@ -40,15 +38,14 @@ namespace TelegramBot.InlinePanels
                     InlineKeyboardButton.WithCallbackData("Контакты")
                 }
             });
+
+            var message = await BotLogic.Bot.SendPhotoAsync(messageEventArgs.Message.From.Id,
+                "https://i.imgur.com/mbchaO0.png", "Меню:",
+                replyMarkup: inlineKeyboard);
             
-            message = SendInlinePanel(messageEventArgs, inlineKeyBoard).Id;
-            
+            DataBaseContext.SaveMessageId(messageEventArgs, message.MessageId);
         }
 
-        protected override async Task SendInlinePanel(MessageEventArgs messageEventArgs, InlineKeyboardMarkup inlineKeyboardMarkup)
-        {
-            await Task.Run(() => BotLogic.Bot.SendPhotoAsync(messageEventArgs.Message.From.Id, "https://i.imgur.com/mbchaO0.png", "Меню:",
-                replyMarkup: inlineKeyboardMarkup));
-        }
+        
     }
 }

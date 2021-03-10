@@ -3,6 +3,7 @@ using System.Data.SQLite;
 using Telegram.Bot.Args;
 
 namespace TelegramBot
+
 {
     public static class DataBaseContext
     {
@@ -10,24 +11,22 @@ namespace TelegramBot
 
         private static SQLiteConnection ConnectSqLite()
         {
-            //if (_connectionDataBase == null)
+            try
             {
                 try
                 {
-                    try
-                    {
-                        _connectionDataBase = new SQLiteConnection(DataConnection.GetPathToDataBase());
-                    }
-                    catch (DataNotFoundException e)
-                    {
-                        Console.WriteLine("Путь к базе данных не найден" + e);
-                    }
+                    _connectionDataBase = new SQLiteConnection(DataConnection.GetPathToDataBase());
                 }
-                catch (Exception e)
+                catch (DataNotFoundException e)
                 {
-                    Console.WriteLine(e);
+                    Console.WriteLine("Путь к базе данных не найден" + e);
                 }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            
 
             return _connectionDataBase;
         }
@@ -53,12 +52,11 @@ namespace TelegramBot
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine(e.Message);
             }
         }
 
 
-        //public static Action<MessageEventArgs> DeleteAction = (DeleteOldPanel);
         public static async void DeleteOldPanel(MessageEventArgs messageEventArgs)
         {
             try
@@ -66,14 +64,16 @@ namespace TelegramBot
                 var connection = ConnectSqLite();
                 connection.Open();
                 SQLiteCommand sqLiteCommand = connection.CreateCommand();
-                sqLiteCommand.CommandText = $"SELECT MessageId FROM UsersInfo WHERE UserId IS {messageEventArgs.Message.From.Id}";
+                sqLiteCommand.CommandText = $"SELECT MessageId FROM UsersInfo WHERE UserId = {messageEventArgs.Message.From.Id}";
                 int messageId = Convert.ToInt32(sqLiteCommand.ExecuteScalar());
+                //BotLogic botLogic = new BotLogic();
                 await BotLogic.Bot.DeleteMessageAsync(messageEventArgs.Message.From.Id, messageId);
                 connection.Close();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine(e);
+                //Console.WriteLine(e.Message);
+                //Ignored
             }
             
         }
@@ -93,7 +93,7 @@ namespace TelegramBot
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine(e.Message);
             }
         }
 
