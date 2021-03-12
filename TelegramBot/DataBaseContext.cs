@@ -56,22 +56,25 @@ namespace TelegramBot
             }
         }
 
+        
 
-        public static async void DeleteOldPanel(MessageEventArgs messageEventArgs)
+        public static int GetMessageId(MessageEventArgs messageEventArgs)
         {
+            int messageId;
             try
             {
                 var connection = ConnectSqLite();
                 connection.Open();
                 SQLiteCommand sqLiteCommand = connection.CreateCommand();
-                sqLiteCommand.CommandText = $"SELECT MessageId FROM UsersInfo WHERE UserId = {messageEventArgs.Message.From.Id}";
-                int messageId = Convert.ToInt32(sqLiteCommand.ExecuteScalar());
-                //BotLogic botLogic = new BotLogic();
-                await BotLogic.Bot.DeleteMessageAsync(messageEventArgs.Message.From.Id, messageId);
+                sqLiteCommand.CommandText =
+                    $"SELECT MessageId FROM UsersInfo WHERE UserId = {messageEventArgs.Message.From.Id}";
+                messageId = Convert.ToInt32(sqLiteCommand.ExecuteScalar());
                 connection.Close();
+                return messageId;
             }
             catch (Exception)
             {
+                return messageId = 0;
                 //Console.WriteLine(e.Message);
                 //Ignored
             }

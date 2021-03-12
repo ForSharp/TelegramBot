@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Никита\\RiderProjects\\TelegramBot\\TelegramBot\\TelegramBot.csproj": {}
+    "C:\\Users\\Nikita\\RiderProjects\\TelegramBot\\TelegramBot\\TelegramBot.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Никита\\RiderProjects\\TelegramBot\\TelegramBot\\TelegramBot.csproj": {
+    "C:\\Users\\Nikita\\RiderProjects\\TelegramBot\\TelegramBot\\TelegramBot.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Никита\\RiderProjects\\TelegramBot\\TelegramBot\\TelegramBot.csproj",
+        "projectUniqueName": "C:\\Users\\Nikita\\RiderProjects\\TelegramBot\\TelegramBot\\TelegramBot.csproj",
         "projectName": "TelegramBot",
-        "projectPath": "C:\\Users\\Никита\\RiderProjects\\TelegramBot\\TelegramBot\\TelegramBot.csproj",
-        "packagesPath": "C:\\Users\\Никита\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Никита\\RiderProjects\\TelegramBot\\TelegramBot\\obj\\",
+        "projectPath": "C:\\Users\\Nikita\\RiderProjects\\TelegramBot\\TelegramBot\\TelegramBot.csproj",
+        "packagesPath": "C:\\Users\\Nikita\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Nikita\\RiderProjects\\TelegramBot\\TelegramBot\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet"
         ],
         "configFilePaths": [
-          "C:\\Users\\Никита\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Nikita\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],

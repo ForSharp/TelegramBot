@@ -109,6 +109,23 @@ namespace TelegramBot
 
             throw new DataNotFoundException();
         }
+
+        public static FileStream GetImage(string imageName)
+        {
+            FileStream fileStream = new FileStream($@"Images\{imageName}.png", FileMode.Open, FileAccess.Read);
+            return fileStream;
+        }
+
+        public static string GetImageId(string imageName)
+        {
+            return GetImage(imageName).Name;
+        }
+
+        public static string GetImagePath(string imageName)
+        {
+            string path = $@"Images\{imageName}.png";
+            return path;
+        }
     
     }
 }

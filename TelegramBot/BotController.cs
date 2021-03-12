@@ -5,7 +5,7 @@ using Telegram.Bot.Args;
 
 namespace TelegramBot
 {
-    public static class BotLogic
+    public static class BotController
     {
         public static TelegramBotClient Bot;
         
@@ -24,7 +24,7 @@ namespace TelegramBot
                 {
                     try
                     {
-                        Bot = new TelegramBotClient(DataConnection.GetTelegramBotToken()); //"1529340209:AAHnVY6sIVi4Yc3Z34GKO6ebtrTSZSXeiWY"
+                        Bot = new TelegramBotClient(DataConnection.GetTelegramBotToken()); 
                     }
                     catch (DataNotFoundException e)
                     {

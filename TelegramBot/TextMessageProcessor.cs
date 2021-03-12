@@ -5,7 +5,7 @@ using TelegramBot.InlinePanels;
 
 namespace TelegramBot
 {
-    public static class ProcessingTextMessages
+    public static class TextMessageProcessor
     {
         private static async void CreateKeyboardButtons(MessageEventArgs messageEventArgs)
         {
@@ -25,7 +25,7 @@ namespace TelegramBot
                     }
                 }, true, true);
                 
-                await BotLogic.Bot.SendTextMessageAsync(messageEventArgs.Message.From.Id, $"Здравствуйте, " +
+                await BotController.Bot.SendTextMessageAsync(messageEventArgs.Message.From.Id, $"Здравствуйте, " +
                     $"{messageEventArgs.Message.From.FirstName}! \nПожалуйста, воспользуйтесь кнопками для начала работы", 
                     replyMarkup: replyKeyboard);
             }
@@ -39,22 +39,22 @@ namespace TelegramBot
         {
             CreateKeyboardButtons(messageEventArgs);
             var inlineMenu = new InlineMenu();
-            inlineMenu.RunCreatingProcess(messageEventArgs);
+            inlineMenu.RunCreatingProcess(messageEventArgs, true);
         }
 
-        public static void ShowInTheMap()
+        public static async void ShowInTheMap(MessageEventArgs messageEventArgs)
         {
-            
+            await BotController.Bot.SendTextMessageAsync(messageEventArgs.Message.From.Id, "ShowInTheMap");
         }
 
-        public static void SendContacts()
+        public static async void SendContacts(MessageEventArgs messageEventArgs)
         {
-            
+            await BotController.Bot.SendTextMessageAsync(messageEventArgs.Message.From.Id, "SendContacts");
         }
 
-        public static void GetUserNumber()
+        public static async void GetUserNumber(MessageEventArgs messageEventArgs)
         {
-            
+            await BotController.Bot.SendTextMessageAsync(messageEventArgs.Message.From.Id, "GetUserNumber");
         }
         
     }

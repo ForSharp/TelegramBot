@@ -112,178 +112,179 @@ namespace TelegramBot
         private static void HandleMessageTypeText(string sender, MessageEventArgs messageEventArgs)
         {
             
-            
             Console.WriteLine($"{sender} отправил текстовое сообщение: {messageEventArgs.Message.Text}", true, Encoding.Unicode);
             
             switch (messageEventArgs.Message.Text.ToLower().Trim())
             {
                 case "/start":
                     DataBaseContext.RegisterUser(messageEventArgs);
-                    ProcessingTextMessages.CreateStartStatement(messageEventArgs);
+                    TextMessageProcessor.CreateStartStatement(messageEventArgs);
                     break;
                 case "меню":
                     var inlineMenu = new InlineMenu();
-                    inlineMenu.RunCreatingProcess(messageEventArgs);
+                    inlineMenu.RunCreatingProcess(messageEventArgs, true);
                     break;
                 case "контакты":
-                    ProcessingTextMessages.SendContacts();
+                    TextMessageProcessor.SendContacts(messageEventArgs);
                     break;
                 case "заказать звонок":
-                    ProcessingTextMessages.GetUserNumber();
+                    TextMessageProcessor.GetUserNumber(messageEventArgs);
                     break;
                 case "показать на карте":
-                    ProcessingTextMessages.ShowInTheMap();
+                    TextMessageProcessor.ShowInTheMap(messageEventArgs);
+                    break;
+                case "test":
+                    InlineMajor inlineMajor = new InlineMajor();
+                    inlineMajor.RunCreatingProcess(messageEventArgs);
                     break;
             }
-            
-            
+
         }
 
         
-
         private static void HandleMessageTypeUnknown()
         {
-            throw new NotImplementedException();
+            
         }
 
         private static void HandleMessageTypePhoto()
         {
-            throw new NotImplementedException();
+           
         }
 
         private static void HandleMessageTypeAudio()
         {
-            throw new NotImplementedException();
+            
         }
 
         private static void HandleMessageTypeVideo()
         {
-            throw new NotImplementedException();
+            
         }
 
         private static void HandleMessageTypeVoice()
         {
-            throw new NotImplementedException();
+           
         }
 
         private static void HandleMessageTypeDocument()
         {
-            throw new NotImplementedException();
+           
         }
 
         private static void HandleMessageTypeSticker()
         {
-            throw new NotImplementedException();
+            
         }
 
         private static void HandleMessageTypeLocation()
         {
-            throw new NotImplementedException();
+            
         }
 
         private static void HandleMessageTypeContact()
         {
-            throw new NotImplementedException();
+            
         }
 
         private static void HandleMessageTypeVenue()
         {
-            throw new NotImplementedException();
+            
         }
 
         private static void HandleMessageTypeGame()
         {
-            throw new NotImplementedException();
+            
         }
 
         private static void HandleMessageTypeVideoNote()
         {
-            throw new NotImplementedException();
+           
         }
 
         private static void HandleMessageTypeTextInvoice()
         {
-            throw new NotImplementedException();
+            
         }
 
         private static void HandleMessageTypeSuccessfulPayment()
         {
-            throw new NotImplementedException();
+            
         }
 
         private static void HandleMessageTypeWebsiteConnected()
         {
-            throw new NotImplementedException();
+            
         }
 
         private static void HandleMessageTypeChatMembersAdded()
         {
-            throw new NotImplementedException();
+            
         }
 
         private static void HandleMessageTypeChatMemberLeft()
         {
-            throw new NotImplementedException();
+            
         }
 
         private static void HandleMessageTypeChatTitleChanged()
         {
-            throw new NotImplementedException();
+            
         }
 
         private static void HandleMessageTypeChatPhotoChanged()
         {
-            throw new NotImplementedException();
+            
         }
 
         private static void HandleMessageTypeMessagePinned()
         {
-            throw new NotImplementedException();
+           
         }
 
         private static void HandleMessageTypeChatPhotoDeleted()
         {
-            throw new NotImplementedException();
+           
         }
 
         private static void HandleMessageTypeGroupCreated()
         {
-            throw new NotImplementedException();
+            
         }
 
         private static void HandleMessageTypeSupergroupCreated()
         {
-            throw new NotImplementedException();
+            
         }
 
         private static void HandleMessageTypeChannelCreated()
         {
-            throw new NotImplementedException();
+            
         }
 
         private static void HandleMessageTypeMigratedToSupergroup()
         {
-            throw new NotImplementedException();
+            
         }
 
         private static void HandleMessageTypeMigratedFromGroup()
         {
-            throw new NotImplementedException();
+            
         }
 
         private static void HandleMessageTypeAnimation()
         {
-            throw new NotImplementedException();
+            
         }
 
         private static void HandleMessageTypePoll()
         {
-            throw new NotImplementedException();
+            
         }
 
         private static void HandleMessageTypeDice()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
