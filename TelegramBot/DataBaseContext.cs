@@ -58,7 +58,6 @@ namespace TelegramBot
 
         public static int GetMessageId(MessageEventArgs messageEventArgs)
         {
-            int messageId;
             try
             {
                 var connection = ConnectSqLite();
@@ -66,13 +65,13 @@ namespace TelegramBot
                 SQLiteCommand sqLiteCommand = connection.CreateCommand();
                 sqLiteCommand.CommandText =
                     $"SELECT MessageId FROM UsersInfo WHERE UserId = {messageEventArgs.Message.From.Id}";
-                messageId = Convert.ToInt32(sqLiteCommand.ExecuteScalar());
+                var messageId = Convert.ToInt32(sqLiteCommand.ExecuteScalar());
                 connection.Close();
                 return messageId;
             }
             catch (Exception)
             {
-                return messageId = 0;
+                return 0;
                 //Console.WriteLine(e.Message);
                 //Ignored
             }
@@ -86,9 +85,10 @@ namespace TelegramBot
                 var connection = ConnectSqLite();
                 connection.Open();
                 SQLiteCommand sqLiteCommand = connection.CreateCommand();
-                sqLiteCommand.CommandText = "INSERT INTO UsersInfo VALUES(@UserId, @MessageId)";
+                sqLiteCommand.CommandText = "INSERT INTO UsersInfo VALUES(@UserId, @MessageId, @StepId)";
                 sqLiteCommand.Parameters.AddWithValue("@UserId", messageEventArgs.Message.From.Id);
                 sqLiteCommand.Parameters.AddWithValue("@MessageId", messageId);
+                sqLiteCommand.Parameters.AddWithValue("@StepId", (int)InlinePanelSteps.Menu);
                 sqLiteCommand.ExecuteNonQuery();
                 connection.Close();
             }
@@ -100,12 +100,39 @@ namespace TelegramBot
 
         public static void SetStepId(MessageEventArgs messageEventArgs, int stepId)
         {
-            
+            try
+            {
+                var connection = ConnectSqLite();
+                connection.Open();
+                SQLiteCommand sqLiteCommand = connection.CreateCommand();
+                sqLiteCommand.CommandText = $"UPDATE UsersInfo Set StepId = {stepId} WHERE UserId = {messageEventArgs.Message.From.Id}";
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         public static int GetStepId(MessageEventArgs messageEventArgs)
         {
-            return 0;
+            try
+            {
+                var connection = ConnectSqLite();
+                connection.Open();
+                SQLiteCommand sqLiteCommand = connection.CreateCommand();
+                sqLiteCommand.CommandText =
+                    $"SELECT StepId FROM UsersInfo WHERE UserId = {messageEventArgs.Message.From.Id}";
+                var stepId = Convert.ToInt32(sqLiteCommand.ExecuteScalar());
+                connection.Close();
+                return stepId;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return 0;
+                
+            }
         }
         
 
