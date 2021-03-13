@@ -42,6 +42,8 @@ namespace TelegramBot
             }
             
             Bot.OnMessage += BotOnMessage;
+
+            Bot.OnCallbackQuery += BotOnCallbackQuery;
             
             var user = Bot.GetMeAsync().Result;
             Console.WriteLine(user.FirstName);
@@ -55,6 +57,11 @@ namespace TelegramBot
             var senderName = GetAvailableSenderName(messageEventArgs);
             
             MessageHandler.HandleSenderMessage(senderName, messageEventArgs);
+            
+        }
+
+        private static void BotOnCallbackQuery(object sender, CallbackQueryEventArgs callbackQueryEventArgs)
+        {
             
         }
 

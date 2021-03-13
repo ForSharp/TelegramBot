@@ -116,16 +116,7 @@ namespace TelegramBot
             return fileStream;
         }
 
-        public static string GetImageId(string imageName)
-        {
-            return GetImage(imageName).Name;
-        }
-
-        public static string GetImagePath(string imageName)
-        {
-            string path = $@"Images\{imageName}.png";
-            return path;
-        }
+     
     
     }
 }

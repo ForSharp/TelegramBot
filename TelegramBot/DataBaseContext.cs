@@ -56,8 +56,6 @@ namespace TelegramBot
             }
         }
 
-        
-
         public static int GetMessageId(MessageEventArgs messageEventArgs)
         {
             int messageId;
@@ -99,6 +97,17 @@ namespace TelegramBot
                 Console.WriteLine(e.Message);
             }
         }
+
+        public static void SetStepId(MessageEventArgs messageEventArgs, int stepId)
+        {
+            
+        }
+
+        public static int GetStepId(MessageEventArgs messageEventArgs)
+        {
+            return 0;
+        }
+        
 
     }
 }
