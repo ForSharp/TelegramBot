@@ -22,6 +22,12 @@ namespace TelegramBot.InlinePanels
             }
         }
 
+        public void RunCreatingProcess(CallbackQueryEventArgs callbackQueryEventArgs)
+        {
+            var userId = callbackQueryEventArgs.CallbackQuery.From.Id;
+            EditInlinePanel(userId, DataBaseContext.GetMessageId(userId));
+        }
+
         protected void RunDefaultCreatingProcess(int userId)
         {
             DeleteOldPanel(userId);
@@ -29,12 +35,6 @@ namespace TelegramBot.InlinePanels
             inlineMenu.CreateInlinePanel(userId);
         }
 
-        public void RunCreatingProcess(CallbackQueryEventArgs callbackQueryEventArgs)
-        {
-            var userId = callbackQueryEventArgs.CallbackQuery.From.Id;
-            EditInlinePanel(userId, DataBaseContext.GetMessageId(userId));
-        }
-        
 
         protected virtual async void CreateInlinePanel(int userId)
         {
