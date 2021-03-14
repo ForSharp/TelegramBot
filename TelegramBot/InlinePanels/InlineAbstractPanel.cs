@@ -7,46 +7,54 @@ namespace TelegramBot.InlinePanels
 {
     public abstract class InlineAbstractPanel
     {
-        
+
         public void RunCreatingProcess(MessageEventArgs messageEventArgs, bool deleting = false)
         {
+            var userId = messageEventArgs.Message.From.Id;
             if (deleting)
             {
-                DeleteOldPanel(messageEventArgs);
-                CreateInlinePanel(messageEventArgs);
+                DeleteOldPanel(userId);
+                CreateInlinePanel(userId);
             }
             else
             {
-                EditInlinePanel(messageEventArgs, DataBaseContext.GetMessageId(messageEventArgs));
+                EditInlinePanel(userId, DataBaseContext.GetMessageId(userId));
             }
         }
 
-        protected void RunDefaultCreatingProcess(MessageEventArgs messageEventArgs)
+        protected void RunDefaultCreatingProcess(int userId)
         {
-            DeleteOldPanel(messageEventArgs);
+            DeleteOldPanel(userId);
             var inlineMenu = new InlineMenu();
-            inlineMenu.CreateInlinePanel(messageEventArgs);
+            inlineMenu.CreateInlinePanel(userId);
         }
 
-        protected virtual async void CreateInlinePanel(MessageEventArgs messageEventArgs)
+        public void RunCreatingProcess(CallbackQueryEventArgs callbackQueryEventArgs)
         {
-            var message = await BotController.Bot.SendPhotoAsync(messageEventArgs.Message.From.Id, "", replyMarkup: (InlineKeyboardMarkup) null);
-            DataBaseContext.SaveMessageId(messageEventArgs, message.MessageId);
+            var userId = callbackQueryEventArgs.CallbackQuery.From.Id;
+            EditInlinePanel(userId, DataBaseContext.GetMessageId(userId));
+        }
+        
+
+        protected virtual async void CreateInlinePanel(int userId)
+        {
+            var message = await BotController.Bot.SendPhotoAsync(userId, "", replyMarkup: (InlineKeyboardMarkup) null);
+            DataBaseContext.SaveMessageId(userId, message.MessageId);
         }
 
-        protected virtual async void EditInlinePanel(MessageEventArgs messageEventArgs, int messageId)
+        protected virtual async void EditInlinePanel(int userId, int messageId)
         {
-            await BotController.Bot.EditMessageMediaAsync(messageEventArgs.Message.From.Id, messageId,
+            await BotController.Bot.EditMessageMediaAsync(userId, messageId,
                 new InputMediaPhoto(""), replyMarkup: (InlineKeyboardMarkup) null);
-            await BotController.Bot.EditMessageCaptionAsync(messageEventArgs.Message.From.Id, messageId, "",
+            await BotController.Bot.EditMessageCaptionAsync(userId, messageId, "",
                 replyMarkup: (InlineKeyboardMarkup) null);
         }
 
-        private static async void DeleteOldPanel(MessageEventArgs messageEventArgs)
+        private static async void DeleteOldPanel(int userId)
         {
             try
             {
-                await BotController.Bot.DeleteMessageAsync(messageEventArgs.Message.From.Id, DataBaseContext.GetMessageId(messageEventArgs));
+                await BotController.Bot.DeleteMessageAsync(userId, DataBaseContext.GetMessageId(userId));
             }
             catch (Exception e)
             {

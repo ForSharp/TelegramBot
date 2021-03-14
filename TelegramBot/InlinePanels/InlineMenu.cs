@@ -7,7 +7,7 @@ namespace TelegramBot.InlinePanels
 {
     public class InlineMenu : InlineAbstractPanel
     {
-        protected override async void CreateInlinePanel(MessageEventArgs messageEventArgs)
+        protected override async void CreateInlinePanel(int userId)
         {
             try
             {
@@ -43,11 +43,11 @@ namespace TelegramBot.InlinePanels
                     }
                 });
 
-                var message = await BotController.Bot.SendPhotoAsync(messageEventArgs.Message.From.Id,
+                var message = await BotController.Bot.SendPhotoAsync(userId,
                     DataConnection.GetImage("Menu"), "Меню:",
                     replyMarkup: inlineKeyboard);
             
-                DataBaseContext.SaveMessageId(messageEventArgs, message.MessageId);
+                DataBaseContext.SaveMessageId(userId, message.MessageId);
             }
             catch (Exception e)
             {
@@ -55,7 +55,7 @@ namespace TelegramBot.InlinePanels
             }
         }
 
-        protected override async void EditInlinePanel(MessageEventArgs messageEventArgs, int messageId)
+        protected override async void EditInlinePanel(int userId, int messageId)
         {
             try
             {
@@ -92,12 +92,12 @@ namespace TelegramBot.InlinePanels
                 });
             
                 await BotController.Bot.EditMessageMediaAsync(
-                    chatId: messageEventArgs.Message.From.Id,
+                    chatId: userId,
                     messageId: messageId,
                     media: new InputMediaPhoto(new InputMedia(DataConnection.GetImage("Menu"), "Menu.png")),
                     replyMarkup: inlineKeyboard);
             
-                await BotController.Bot.EditMessageCaptionAsync(messageEventArgs.Message.From.Id, messageId, 
+                await BotController.Bot.EditMessageCaptionAsync(userId, messageId, 
                     $"Меню:", replyMarkup: inlineKeyboard);
             }
             catch (Exception e)

@@ -7,7 +7,7 @@ namespace TelegramBot.InlinePanels
 {
     public class InlineContacts : InlineAbstractPanel
     {
-        protected override async void EditInlinePanel(MessageEventArgs messageEventArgs, int messageId)
+        protected override async void EditInlinePanel(int userId, int messageId)
         {
             try
             {
@@ -20,12 +20,12 @@ namespace TelegramBot.InlinePanels
                 });
             
                 await BotController.Bot.EditMessageMediaAsync(
-                    chatId: messageEventArgs.Message.From.Id,
+                    chatId: userId,
                     messageId: messageId,
                     media: new InputMediaPhoto(new InputMedia(DataConnection.GetImage("Contacts"), "Contacts.png")),
                     replyMarkup: inlineKeyBoard);
                 
-                await BotController.Bot.EditMessageCaptionAsync(messageEventArgs.Message.From.Id, messageId, @"ООО ""Планета Групп""
+                await BotController.Bot.EditMessageCaptionAsync(userId, messageId, @"ООО ""Планета Групп""
 Страна: Россия
 Регион: Краснодарский край
 Индекс: 350059
@@ -44,7 +44,7 @@ E-mail: info@planeta-grupp.ru
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                RunDefaultCreatingProcess(messageEventArgs);
+                RunDefaultCreatingProcess(userId);
             }
         }
     }

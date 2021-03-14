@@ -4,9 +4,9 @@ namespace TelegramBot.InlinePanels
 {
     public class InlineTimetable : InlineAbstractPanel
     {
-        protected override async void EditInlinePanel(MessageEventArgs messageEventArgs, int messageId)
+        protected override async void EditInlinePanel(int userId, int messageId)
         {
-            base.EditInlinePanel(messageEventArgs, messageId);
+            base.EditInlinePanel(userId, messageId);
         }
     }
 }

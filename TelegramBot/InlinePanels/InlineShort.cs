@@ -7,7 +7,7 @@ namespace TelegramBot.InlinePanels
 {
     public class InlineShort : InlineAbstractPanel
     {
-        protected override async void EditInlinePanel(MessageEventArgs messageEventArgs, int messageId)
+        protected override async void EditInlinePanel(int userId, int messageId)
         {
             try
             {
@@ -29,12 +29,12 @@ namespace TelegramBot.InlinePanels
                 });
             
                 await BotController.Bot.EditMessageMediaAsync(
-            chatId: messageEventArgs.Message.From.Id,
+            chatId: userId,
             messageId: messageId,
             media: new InputMediaPhoto(new InputMedia(DataConnection.GetImage("Short"), "Short.png")),
             replyMarkup: inlineKeyBoard);
             
-                await BotController.Bot.EditMessageCaptionAsync(messageEventArgs.Message.From.Id, messageId, @"Электротехнические материалы и оборудование оптом в Краснодаре.
+                await BotController.Bot.EditMessageCaptionAsync(userId, messageId, @"Электротехнические материалы и оборудование оптом в Краснодаре.
 
 Компания ""Планета Групп"" – это стабильно развивающаяся оптовая компания, с 2008 года торгующая кабельно-проводниковой, электротехнической и светотехнической продукцией на рынке Краснодарского края и ЮФО. Мы обеспечиваем комплексные поставки электротехнических материалов и оборудования в торговые компании, объекты строительства и ведущие предприятия Краснодарского края.
 
@@ -44,7 +44,7 @@ namespace TelegramBot.InlinePanels
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                RunDefaultCreatingProcess(messageEventArgs);
+                RunDefaultCreatingProcess(userId);
             }
         }
     }

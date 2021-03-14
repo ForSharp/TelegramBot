@@ -42,9 +42,21 @@ namespace TelegramBot
                 sqLiteCommand.Parameters.AddWithValue("@UserId", messageEventArgs.Message.From.Id);
                 sqLiteCommand.Parameters.AddWithValue("@FirstName", messageEventArgs.Message.From.FirstName);
                 if (messageEventArgs.Message.From.LastName != null)
+                {
                     sqLiteCommand.Parameters.AddWithValue("@LastName", messageEventArgs.Message.From.LastName);
+                }
+                else
+                {
+                    sqLiteCommand.Parameters.AddWithValue("@LastName", null);
+                }    
                 if (messageEventArgs.Message.From.Username != null)
+                {
                     sqLiteCommand.Parameters.AddWithValue("@Username", messageEventArgs.Message.From.Username);
+                }
+                else
+                {
+                    sqLiteCommand.Parameters.AddWithValue("@Username", null);
+                }
                 sqLiteCommand.ExecuteNonQuery();
                 connection.Close();
                 
@@ -56,7 +68,7 @@ namespace TelegramBot
             }
         }
 
-        public static int GetMessageId(MessageEventArgs messageEventArgs)
+        public static int GetMessageId(int userId)
         {
             try
             {
@@ -64,7 +76,7 @@ namespace TelegramBot
                 connection.Open();
                 SQLiteCommand sqLiteCommand = connection.CreateCommand();
                 sqLiteCommand.CommandText =
-                    $"SELECT MessageId FROM UsersInfo WHERE UserId = {messageEventArgs.Message.From.Id}";
+                    $"SELECT MessageId FROM UsersInfo WHERE UserId = {userId}";
                 var messageId = Convert.ToInt32(sqLiteCommand.ExecuteScalar());
                 connection.Close();
                 return messageId;
@@ -78,7 +90,7 @@ namespace TelegramBot
             
         }
 
-        public static void SaveMessageId(MessageEventArgs messageEventArgs, int messageId)
+        public static void SaveMessageId(int userId, int messageId)
         {
             try
             {
@@ -86,9 +98,9 @@ namespace TelegramBot
                 connection.Open();
                 SQLiteCommand sqLiteCommand = connection.CreateCommand();
                 sqLiteCommand.CommandText = "INSERT INTO UsersInfo VALUES(@UserId, @MessageId, @StepId)";
-                sqLiteCommand.Parameters.AddWithValue("@UserId", messageEventArgs.Message.From.Id);
+                sqLiteCommand.Parameters.AddWithValue("@UserId", userId);
                 sqLiteCommand.Parameters.AddWithValue("@MessageId", messageId);
-                sqLiteCommand.Parameters.AddWithValue("@StepId", (int)InlinePanelSteps.Menu);
+                sqLiteCommand.Parameters.AddWithValue("@StepId", (int)InlinePanelStep.Menu);
                 sqLiteCommand.ExecuteNonQuery();
                 connection.Close();
             }
@@ -98,14 +110,14 @@ namespace TelegramBot
             }
         }
 
-        public static void SetStepId(MessageEventArgs messageEventArgs, int stepId)
+        public static void SetStepId(CallbackQueryEventArgs callbackQueryEventArgs, int stepId)
         {
             try
             {
                 var connection = ConnectSqLite();
                 connection.Open();
                 SQLiteCommand sqLiteCommand = connection.CreateCommand();
-                sqLiteCommand.CommandText = $"UPDATE UsersInfo Set StepId = {stepId} WHERE UserId = {messageEventArgs.Message.From.Id}";
+                sqLiteCommand.CommandText = $"UPDATE UsersInfo Set StepId = {stepId} WHERE UserId = {callbackQueryEventArgs.CallbackQuery.From.Id}";
                 connection.Close();
             }
             catch (Exception e)
@@ -114,7 +126,7 @@ namespace TelegramBot
             }
         }
 
-        public static int GetStepId(MessageEventArgs messageEventArgs)
+        public static int GetStepId(CallbackQueryEventArgs callbackQueryEventArgs)
         {
             try
             {
@@ -122,7 +134,7 @@ namespace TelegramBot
                 connection.Open();
                 SQLiteCommand sqLiteCommand = connection.CreateCommand();
                 sqLiteCommand.CommandText =
-                    $"SELECT StepId FROM UsersInfo WHERE UserId = {messageEventArgs.Message.From.Id}";
+                    $"SELECT StepId FROM UsersInfo WHERE UserId = {callbackQueryEventArgs.CallbackQuery.From.Id}";
                 var stepId = Convert.ToInt32(sqLiteCommand.ExecuteScalar());
                 connection.Close();
                 return stepId;
@@ -131,7 +143,6 @@ namespace TelegramBot
             {
                 Console.WriteLine(e.Message);
                 return 0;
-                
             }
         }
         

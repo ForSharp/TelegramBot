@@ -54,15 +54,12 @@ namespace TelegramBot
 
         private static void BotOnMessage(object sender, MessageEventArgs messageEventArgs)
         {
-            var senderName = GetAvailableSenderName(messageEventArgs);
-            
-            MessageHandler.HandleSenderMessage(senderName, messageEventArgs);
-            
+            MessageHandler.HandleSenderMessage(GetAvailableSenderName(messageEventArgs), messageEventArgs);
         }
 
         private static void BotOnCallbackQuery(object sender, CallbackQueryEventArgs callbackQueryEventArgs)
         {
-            
+            CallbackQueryHandler.HandleCallbackQuery(GetAvailableSenderName(callbackQueryEventArgs), callbackQueryEventArgs);
         }
 
         /* Senders may not have last name and username.
@@ -88,6 +85,30 @@ namespace TelegramBot
             }
 
             senderName = $"{messageEventArgs.Message.From.FirstName} {messageEventArgs.Message.From.LastName} {messageEventArgs.Message.From.Username}";
+            return senderName;
+        }
+        
+        private static string GetAvailableSenderName(CallbackQueryEventArgs callbackQueryEventArgs)
+        {
+            string senderName;
+            if (callbackQueryEventArgs.CallbackQuery.From.LastName == null && callbackQueryEventArgs.CallbackQuery.From.Username == null)
+            {
+                senderName = $"{callbackQueryEventArgs.CallbackQuery.From.FirstName}";
+                return senderName;
+            }
+            if (callbackQueryEventArgs.CallbackQuery.From.LastName == null)
+            {
+                senderName = $"{callbackQueryEventArgs.CallbackQuery.From.FirstName} {callbackQueryEventArgs.CallbackQuery.From.Username}";
+                return senderName;
+            }
+            if (callbackQueryEventArgs.CallbackQuery.From.Username == null)
+            {
+                senderName = $"{callbackQueryEventArgs.CallbackQuery.From.FirstName} {callbackQueryEventArgs.CallbackQuery.From.LastName}";
+                return senderName;
+            }
+
+            senderName = $"{callbackQueryEventArgs.CallbackQuery.From.FirstName} {callbackQueryEventArgs.CallbackQuery.From.LastName}" +
+                         $" {callbackQueryEventArgs.CallbackQuery.From.Username}";
             return senderName;
         }
     }

@@ -7,7 +7,7 @@ namespace TelegramBot.InlinePanels
 {
     public class InlinePriceList3 : InlineAbstractPanel
     {
-        protected override async void EditInlinePanel(MessageEventArgs messageEventArgs, int messageId)
+        protected override async void EditInlinePanel(int userId, int messageId)
         {
             try
             {
@@ -41,18 +41,18 @@ namespace TelegramBot.InlinePanels
                 });
 
                 await BotController.Bot.EditMessageMediaAsync(
-                chatId: messageEventArgs.Message.From.Id,
+                chatId: userId,
                 messageId: messageId,
                 media: new InputMediaPhoto(new InputMedia(DataConnection.GetImage("PriceList"), "PriceList.png")),
                 replyMarkup: inlineKeyBoard);
                 
-                await BotController.Bot.EditMessageCaptionAsync(messageEventArgs.Message.From.Id, messageId, "Прайс-листы:", replyMarkup: inlineKeyBoard);
+                await BotController.Bot.EditMessageCaptionAsync(userId, messageId, "Прайс-листы:", replyMarkup: inlineKeyBoard);
 
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                RunDefaultCreatingProcess(messageEventArgs);
+                RunDefaultCreatingProcess(userId);
             }
         }
     }
