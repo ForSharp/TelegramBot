@@ -9,7 +9,6 @@ namespace TelegramBot.InlinePanels
     {
         protected override async void EditInlinePanel(int userId, int messageId)
         {
-            //TODO
             try
             {
                 var inlineKeyBoard = new InlineKeyboardMarkup(new[]

@@ -9,11 +9,6 @@ namespace TelegramBot
         public static void HandleCallbackQuery(string sender, CallbackQueryEventArgs callbackQueryEventArgs)
         {
             var stepId = DataBaseContext.GetStepId(callbackQueryEventArgs);
-            
-            if (stepId == (int) InlinePanelStep.Brands)
-            {
-                
-            }
 
             switch (stepId)
             {
@@ -184,51 +179,193 @@ namespace TelegramBot
                     GoToBeginning(callbackQueryEventArgs);
                     break;
                 case (int) InlinePanelStep.PriceList1:
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Назад")
+                    {
+                        InlineCatPrice inlineCatPrice = new InlineCatPrice();
+                        inlineCatPrice.RunCreatingProcess(callbackQueryEventArgs);
+                    }
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Далее")
+                    {
+                        InlinePriceList2 inlinePriceList2 = new InlinePriceList2();
+                        inlinePriceList2.RunCreatingProcess(callbackQueryEventArgs);
+                    }
                     GoToBeginning(callbackQueryEventArgs);
                     break;
                 case (int) InlinePanelStep.PriceList2:
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Назад")
+                    {
+                        InlinePriceList1 inlinePriceList1 = new InlinePriceList1();
+                        inlinePriceList1.RunCreatingProcess(callbackQueryEventArgs);
+                    }
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Далее")
+                    {
+                        InlinePriceList3 inlinePriceList3 = new InlinePriceList3();
+                        inlinePriceList3.RunCreatingProcess(callbackQueryEventArgs);
+                    }
                     GoToBeginning(callbackQueryEventArgs);
                     break;
                 case (int) InlinePanelStep.PriceList3:
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Назад")
+                    {
+                        InlinePriceList2 inlinePriceList2 = new InlinePriceList2();
+                        inlinePriceList2.RunCreatingProcess(callbackQueryEventArgs);
+                    }
                     GoToBeginning(callbackQueryEventArgs);
                     break;
                 case (int) InlinePanelStep.Reason1:
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Назад")
+                    {
+                        InlineReasons inlineReasons = new InlineReasons();
+                        inlineReasons.RunCreatingProcess(callbackQueryEventArgs);
+                    }
                     GoToBeginning(callbackQueryEventArgs);
                     break;
                 case (int) InlinePanelStep.Reason2:
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Назад")
+                    {
+                        InlineReasons inlineReasons = new InlineReasons();
+                        inlineReasons.RunCreatingProcess(callbackQueryEventArgs);
+                    }
                     GoToBeginning(callbackQueryEventArgs);
                     break;
                 case (int) InlinePanelStep.Reason3:
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Назад")
+                    {
+                        InlineReasons inlineReasons = new InlineReasons();
+                        inlineReasons.RunCreatingProcess(callbackQueryEventArgs);
+                    }
                     GoToBeginning(callbackQueryEventArgs);
                     break;
                 case (int) InlinePanelStep.Reason4:
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Назад")
+                    {
+                        InlineReasons inlineReasons = new InlineReasons();
+                        inlineReasons.RunCreatingProcess(callbackQueryEventArgs);
+                    }
                     GoToBeginning(callbackQueryEventArgs);
                     break;
                 case (int) InlinePanelStep.Reason5:
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Назад")
+                    {
+                        InlineReasons inlineReasons = new InlineReasons();
+                        inlineReasons.RunCreatingProcess(callbackQueryEventArgs);
+                    }
                     GoToBeginning(callbackQueryEventArgs);
                     break;
                 case (int) InlinePanelStep.Reason6:
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Назад")
+                    {
+                        InlineReasons inlineReasons = new InlineReasons();
+                        inlineReasons.RunCreatingProcess(callbackQueryEventArgs);
+                    }
                     GoToBeginning(callbackQueryEventArgs);
                     break;
                 case (int) InlinePanelStep.Reason7:
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Назад")
+                    {
+                        InlineReasons inlineReasons = new InlineReasons();
+                        inlineReasons.RunCreatingProcess(callbackQueryEventArgs);
+                    }
                     GoToBeginning(callbackQueryEventArgs);
                     break;
                 case (int) InlinePanelStep.Reason8:
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Назад")
+                    {
+                        InlineReasons inlineReasons = new InlineReasons();
+                        inlineReasons.RunCreatingProcess(callbackQueryEventArgs);
+                    }
                     GoToBeginning(callbackQueryEventArgs);
                     break;
                 case (int) InlinePanelStep.Reasons:
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Низкие цены")
+                    {
+                        InlineReason1 inlineReason1 = new InlineReason1();
+                        inlineReason1.RunCreatingProcess(callbackQueryEventArgs);
+                    }
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Бесплатная доставка")
+                    {
+                        InlineReason2 inlineReason2 = new InlineReason2();
+                        inlineReason2.RunCreatingProcess(callbackQueryEventArgs);
+                    }
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Склад в Краснодаре")
+                    {
+                        InlineReason3 inlineReason3 = new InlineReason3();
+                        inlineReason3.RunCreatingProcess(callbackQueryEventArgs);
+                    }
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Широчайший ассортимент")
+                    {
+                        InlineReason4 inlineReason4 = new InlineReason4();
+                        inlineReason4.RunCreatingProcess(callbackQueryEventArgs);
+                    }
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Мы не срываем сроки")
+                    {
+                        InlineReason5 inlineReason5 = new InlineReason5();
+                        inlineReason5.RunCreatingProcess(callbackQueryEventArgs);
+                    }
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Профессиональные сотрудники")
+                    {
+                        InlineReason6 inlineReason6 = new InlineReason6();
+                        inlineReason6.RunCreatingProcess(callbackQueryEventArgs);
+                    }
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Гарантия качества")
+                    {
+                        InlineReason7 inlineReason7 = new InlineReason7();
+                        inlineReason7.RunCreatingProcess(callbackQueryEventArgs);
+                    }
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Маркетинговая поддержка")
+                    {
+                        InlineReason8 inlineReason8 = new InlineReason8();
+                        inlineReason8.RunCreatingProcess(callbackQueryEventArgs);
+                    }
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Назад")
+                    {
+                        InlineMajor inlineMajor = new InlineMajor();
+                        inlineMajor.RunCreatingProcess(callbackQueryEventArgs);
+                    }
                     GoToBeginning(callbackQueryEventArgs);
                     break;
                 case (int) InlinePanelStep.Short:
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Подробнее о компании")
+                    {
+                        InlineCompany inlineCompany = new InlineCompany();
+                        inlineCompany.RunCreatingProcess(callbackQueryEventArgs);
+                    }
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Каталоги и прайсы")
+                    {
+                        InlineCatPrice inlineCatPrice = new InlineCatPrice();
+                        inlineCatPrice.RunCreatingProcess(callbackQueryEventArgs);
+                    }
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Назад")
+                    {
+                        InlineMajor inlineMajor = new InlineMajor();
+                        inlineMajor.RunCreatingProcess(callbackQueryEventArgs);
+                    }
                     GoToBeginning(callbackQueryEventArgs);
                     break;
                 case (int) InlinePanelStep.Timetable:
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Назад")
+                    {
+                        InlineMajor inlineMajor = new InlineMajor();
+                        inlineMajor.RunCreatingProcess(callbackQueryEventArgs);
+                    }
                     GoToBeginning(callbackQueryEventArgs);
                     break;
                 case (int) InlinePanelStep.TypesProduct:
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Перейти к каталогу")
+                    {
+                        InlineCatPrice inlineCatPrice = new InlineCatPrice();
+                        inlineCatPrice.RunCreatingProcess(callbackQueryEventArgs);
+                    }
+                    if (callbackQueryEventArgs.CallbackQuery.Data == "Назад")
+                    {
+                        InlineMajor inlineMajor = new InlineMajor();
+                        inlineMajor.RunCreatingProcess(callbackQueryEventArgs);
+                    }
                     GoToBeginning(callbackQueryEventArgs);
                     break;
                 default:
+                    InlineMenu inlineMenu = new InlineMenu();
+                    inlineMenu.RunCreatingProcess(callbackQueryEventArgs);
                     break;
             }
             
