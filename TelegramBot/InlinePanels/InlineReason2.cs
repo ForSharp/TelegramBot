@@ -31,7 +31,7 @@ namespace TelegramBot.InlinePanels
                     " позволяет нам оперативно доставлять товар в любую точку России, а Вам экономить на доставке.", 
                     replyMarkup: inlineKeyBoard);
 
-                
+                DataBaseContext.SetStepId(userId, (int)InlinePanelStep.Reason2);
             }
             catch (Exception e)
             {

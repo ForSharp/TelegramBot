@@ -39,15 +39,14 @@ namespace TelegramBot.InlinePanels
                 
                 await BotController.Bot.EditMessageCaptionAsync(userId, messageId, 
                     $"Наша компания будет рада поработать с вами", replyMarkup: inlineKeyBoard);
+                
+                DataBaseContext.SetStepId(userId, (int)InlinePanelStep.Major);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 RunDefaultCreatingProcess(userId);
             }
-
-            
-            
         }
     }
 }

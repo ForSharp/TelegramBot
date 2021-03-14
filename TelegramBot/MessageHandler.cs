@@ -133,9 +133,7 @@ namespace TelegramBot
                 case "показать на карте":
                     TextMessageProcessor.ShowInTheMap(messageEventArgs);
                     break;
-                case "test":
-                    InlineMajor inlineMajor = new InlineMajor();
-                    inlineMajor.RunCreatingProcess(messageEventArgs);
+                default:
                     break;
             }
 

@@ -368,7 +368,6 @@ namespace TelegramBot
                     inlineMenu.RunCreatingProcess(callbackQueryEventArgs);
                     break;
             }
-            
         }
 
         private static void GoToBeginning(CallbackQueryEventArgs callbackQueryEventArgs)

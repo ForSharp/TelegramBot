@@ -31,7 +31,7 @@ namespace TelegramBot.InlinePanels
                     "в случае обнаружения дефектов товара, мы готовы произвести замену или возврат в кратчайшие сроки.", 
                     replyMarkup: inlineKeyBoard);
 
-                
+                DataBaseContext.SetStepId(userId, (int)InlinePanelStep.Reason7);
             }
             catch (Exception e)
             {

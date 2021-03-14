@@ -110,14 +110,15 @@ namespace TelegramBot
             }
         }
 
-        public static void SetStepId(CallbackQueryEventArgs callbackQueryEventArgs, int stepId)
+        public static void SetStepId(int userId, int stepId)
         {
             try
             {
                 var connection = ConnectSqLite();
                 connection.Open();
                 SQLiteCommand sqLiteCommand = connection.CreateCommand();
-                sqLiteCommand.CommandText = $"UPDATE UsersInfo Set StepId = {stepId} WHERE UserId = {callbackQueryEventArgs.CallbackQuery.From.Id}";
+                sqLiteCommand.CommandText = $"UPDATE UsersInfo Set StepId={stepId} WHERE UserId = {userId}";
+                sqLiteCommand.ExecuteNonQuery();
                 connection.Close();
             }
             catch (Exception e)

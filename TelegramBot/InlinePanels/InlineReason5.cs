@@ -30,7 +30,7 @@ namespace TelegramBot.InlinePanels
                     "Мы обеспечиваем молниеносную доставку заказных позиций электротоваров.", 
                     replyMarkup: inlineKeyBoard);
 
-                
+                DataBaseContext.SetStepId(userId, (int)InlinePanelStep.Reason5);
             }
             catch (Exception e)
             {

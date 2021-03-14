@@ -48,6 +48,7 @@ namespace TelegramBot.InlinePanels
                     replyMarkup: inlineKeyboard);
             
                 DataBaseContext.SaveMessageId(userId, message.MessageId);
+                DataBaseContext.SetStepId(userId, (int)InlinePanelStep.Menu);
             }
             catch (Exception e)
             {
@@ -99,6 +100,8 @@ namespace TelegramBot.InlinePanels
             
                 await BotController.Bot.EditMessageCaptionAsync(userId, messageId, 
                     $"Меню:", replyMarkup: inlineKeyboard);
+                
+                DataBaseContext.SetStepId(userId, (int)InlinePanelStep.Menu);
             }
             catch (Exception e)
             {

@@ -34,6 +34,7 @@ namespace TelegramBot.InlinePanels
 Все виды кабеля и провода, светильники и лампы, электроустановочные изделия, кабеленесущие системы, модульное электрооборудование, щиты, счетчики и другое", 
                     replyMarkup: inlineKeyBoard);
                 
+                DataBaseContext.SetStepId(userId, (int)InlinePanelStep.TypesProduct);
             }
             catch (Exception e)
             {

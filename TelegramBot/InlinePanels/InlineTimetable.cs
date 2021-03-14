@@ -26,6 +26,8 @@ namespace TelegramBot.InlinePanels
                     replyMarkup: inlineKeyBoard);
                 
                 await BotController.Bot.EditMessageCaptionAsync(userId, messageId, "Расписание", replyMarkup: inlineKeyBoard);
+                
+                DataBaseContext.SetStepId(userId, (int)InlinePanelStep.Timetable);
             }
             catch (Exception e)
             {

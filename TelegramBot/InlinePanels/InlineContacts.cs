@@ -40,6 +40,7 @@ E-mail: info@planeta-grupp.ru
 пт:    8:30-16:30
 сб-вс: выходной", replyMarkup: inlineKeyBoard);
 
+                DataBaseContext.SetStepId(userId, (int)InlinePanelStep.Contacts);
             }
             catch (Exception e)
             {

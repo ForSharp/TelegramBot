@@ -60,6 +60,8 @@ namespace TelegramBot.InlinePanels
             
             await BotController.Bot.EditMessageCaptionAsync(userId, messageId, 
                 "8 причин работать с нами:", replyMarkup: inlineKeyBoard);
+            
+            DataBaseContext.SetStepId(userId, (int)InlinePanelStep.Reasons);
             }
             catch (Exception e)
             {

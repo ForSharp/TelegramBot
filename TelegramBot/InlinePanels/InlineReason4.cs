@@ -31,7 +31,7 @@ namespace TelegramBot.InlinePanels
                     "Вам нужна нестандартная позиция, мы привезем её под заказ.", 
                     replyMarkup: inlineKeyBoard);
 
-                
+                DataBaseContext.SetStepId(userId, (int)InlinePanelStep.Reason4);
             }
             catch (Exception e)
             {

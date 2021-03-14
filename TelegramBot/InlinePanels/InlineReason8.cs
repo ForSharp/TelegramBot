@@ -30,6 +30,8 @@ namespace TelegramBot.InlinePanels
                     "Для наших клиентов мы предоставляем каталоги и стенды, а также проводим обучение " +
                     "Вашего персонала работе с продукцией наших основных поставщиков.", 
                     replyMarkup: inlineKeyBoard);
+                
+                DataBaseContext.SetStepId(userId, (int)InlinePanelStep.Reason8);
             }
             catch (Exception e)
             {

@@ -48,6 +48,7 @@ namespace TelegramBot.InlinePanels
                 
                 await BotController.Bot.EditMessageCaptionAsync(userId, messageId, "Прайс-листы:", replyMarkup: inlineKeyBoard);
 
+                DataBaseContext.SetStepId(userId, (int)InlinePanelStep.PriceList3);
             }
             catch (Exception e)
             {

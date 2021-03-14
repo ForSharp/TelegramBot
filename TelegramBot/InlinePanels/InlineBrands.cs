@@ -30,6 +30,8 @@ namespace TelegramBot.InlinePanels
                     replyMarkup: inlineKeyBoard);
                 await BotController.Bot.EditMessageCaptionAsync(userId, messageId, "Бренды", replyMarkup: inlineKeyBoard);
                 
+                DataBaseContext.SetStepId(userId, (int)InlinePanelStep.Brands);
+                
             }
             catch (Exception e)
             {

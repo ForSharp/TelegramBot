@@ -33,6 +33,7 @@ namespace TelegramBot.InlinePanels
                     "Компания ООО «Планета Групп» имеет прямые договора с производителями, что позволяет " +
                     "держать наши цены на самом низком уровне.", replyMarkup: inlineKeyBoard);
 
+                DataBaseContext.SetStepId(userId, (int)InlinePanelStep.InfoBrands);
             }
             catch (Exception e)
             {

@@ -30,7 +30,7 @@ namespace TelegramBot.InlinePanels
                     "Мы являемся официальными дистрибьюторами ведущих электротехнических компаний России и предоставляем своим клиентам лучшие цены.", 
                     replyMarkup: inlineKeyBoard);
 
-                
+                DataBaseContext.SetStepId(userId, (int)InlinePanelStep.Reason1);
             }
             catch (Exception e)
             {

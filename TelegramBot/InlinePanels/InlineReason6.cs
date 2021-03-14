@@ -32,7 +32,7 @@ namespace TelegramBot.InlinePanels
                     "Мы всегда на связи и готовы оправдать Ваше доверие.", 
                     replyMarkup: inlineKeyBoard);
 
-                
+                DataBaseContext.SetStepId(userId, (int)InlinePanelStep.Reason6);
             }
             catch (Exception e)
             {

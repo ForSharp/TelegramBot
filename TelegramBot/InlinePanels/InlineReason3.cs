@@ -30,7 +30,7 @@ namespace TelegramBot.InlinePanels
                     "Вам не нужно ждать, пока товар приедет с другого города, он Вас ждет на нашем складе в г. Краснодаре.", 
                     replyMarkup: inlineKeyBoard);
 
-                
+                DataBaseContext.SetStepId(userId, (int)InlinePanelStep.Reason3);
             }
             catch (Exception e)
             {

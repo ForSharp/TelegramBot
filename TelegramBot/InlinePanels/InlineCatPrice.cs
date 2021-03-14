@@ -27,7 +27,7 @@ namespace TelegramBot.InlinePanels
                 await BotController.Bot.EditMessageMediaAsync(
                     chatId: userId,
                     messageId: messageId,
-                    media: new InputMediaPhoto(new InputMedia(DataConnection.GetImage("CatPrise"), "CatPrise.png")),
+                    media: new InputMediaPhoto(new InputMedia(DataConnection.GetImage("CatPrice"), "CatPrice.png")),
                     replyMarkup: inlineKeyBoard);
                 
                 await BotController.Bot.EditMessageCaptionAsync(userId, messageId, 
@@ -36,6 +36,7 @@ namespace TelegramBot.InlinePanels
                     "электрооборудование, щиты, счетчики и многое другое. Компания ООО «Планета Групп» имеет прямые договора с производителями, " +
                     "что позволяет держать наши цены на самом низком уровне.", replyMarkup: inlineKeyBoard);
                 
+                DataBaseContext.SetStepId(userId, (int)InlinePanelStep.CatPrice);
             }
             catch (Exception e)
             {

@@ -39,7 +39,9 @@ namespace TelegramBot.InlinePanels
         protected virtual async void CreateInlinePanel(int userId)
         {
             var message = await BotController.Bot.SendPhotoAsync(userId, "", replyMarkup: (InlineKeyboardMarkup) null);
+            var stepId = 0;
             DataBaseContext.SaveMessageId(userId, message.MessageId);
+            DataBaseContext.SetStepId(userId, stepId);
         }
 
         protected virtual async void EditInlinePanel(int userId, int messageId)
@@ -48,6 +50,8 @@ namespace TelegramBot.InlinePanels
                 new InputMediaPhoto(""), replyMarkup: (InlineKeyboardMarkup) null);
             await BotController.Bot.EditMessageCaptionAsync(userId, messageId, "",
                 replyMarkup: (InlineKeyboardMarkup) null);
+            var stepId = 0;
+            DataBaseContext.SetStepId(userId, stepId);
         }
 
         private static async void DeleteOldPanel(int userId)

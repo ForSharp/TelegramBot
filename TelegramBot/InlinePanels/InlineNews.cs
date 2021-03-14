@@ -39,6 +39,8 @@ namespace TelegramBot.InlinePanels
                     replyMarkup: inlineKeyBoard);
                 
                 await BotController.Bot.EditMessageCaptionAsync(userId, messageId, $"Самые свежие новости на сайте: ", replyMarkup: inlineKeyBoard);
+                
+                DataBaseContext.SetStepId(userId, (int)InlinePanelStep.News);
             }
             catch (Exception e)
             {
