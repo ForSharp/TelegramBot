@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Data.SQLite;
-using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 

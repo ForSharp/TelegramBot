@@ -10,6 +10,8 @@ namespace TelegramBot
         {
             var stepId = DataBaseContext.GetStepId(callbackQueryEventArgs);
 
+            ShowUsersActions(sender, callbackQueryEventArgs);
+            
             switch (stepId)
             {
                 case (int) InlinePanelStep.Brands:
@@ -378,5 +380,21 @@ namespace TelegramBot
                 inlineMenu.RunCreatingProcess(callbackQueryEventArgs);
             }
         }
+
+        private static async void ShowUsersActions(string sender, CallbackQueryEventArgs callbackQueryEventArgs)
+        {
+            try
+            {
+                string buttonText = callbackQueryEventArgs.CallbackQuery.Data;
+                Console.WriteLine($"{sender} нажал кнопку {buttonText}");
+                
+                await BotController.Bot.AnswerCallbackQueryAsync(callbackQueryEventArgs.CallbackQuery.Id, $"Вы нажали кнопку {buttonText}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex}");
+            }
+        }
+        
     }
 }
