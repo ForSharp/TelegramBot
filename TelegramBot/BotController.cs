@@ -65,7 +65,7 @@ namespace TelegramBot
         /* Senders may not have last name and username.
          * The method gets the most complete sender name.
          */
-        private static string GetAvailableSenderName(MessageEventArgs messageEventArgs)
+        public static string GetAvailableSenderName(MessageEventArgs messageEventArgs)
         {
             string senderName;
             if (messageEventArgs.Message.From.LastName == null && messageEventArgs.Message.From.Username == null)

@@ -114,6 +114,8 @@ namespace TelegramBot
             
             Console.WriteLine($"{sender} отправил текстовое сообщение: {messageEventArgs.Message.Text}", true, Encoding.Unicode);
             
+            AdminCommandHandler.HandleAdminCommands(messageEventArgs);
+            
             switch (messageEventArgs.Message.Text.ToLower().Trim())
             {
                 case "/start":

@@ -9,21 +9,12 @@ namespace TelegramBot
     {
         private static async void CreateKeyboardButtons(MessageEventArgs messageEventArgs)
         {
+            if (DataBaseContext.GetCommandId(messageEventArgs.Message.From.Id) != (int) AdminCommandStep.Default)
+                return;
+            
             try
             {
-                var replyKeyboard = new ReplyKeyboardMarkup(new[]
-                {
-                    new[]
-                    {
-                        new KeyboardButton("Меню"),
-                        new KeyboardButton("Контакты")
-                    },
-                    new[]
-                    {
-                        new KeyboardButton("Заказать звонок"),
-                        new KeyboardButton("Показать на карте")
-                    }
-                }, true, true);
+                var replyKeyboard = CreateDefaultButtons();
                 
                 await BotController.Bot.SendTextMessageAsync(messageEventArgs.Message.From.Id, $"Здравствуйте, " +
                     $"{messageEventArgs.Message.From.FirstName}! \nПожалуйста, воспользуйтесь кнопками для начала работы", 
@@ -35,7 +26,26 @@ namespace TelegramBot
             }
         }
 
-        public static void CreateStartStatement(MessageEventArgs messageEventArgs)
+        public static ReplyKeyboardMarkup CreateDefaultButtons()
+        {
+            var replyKeyboard = new ReplyKeyboardMarkup(new[]
+            {
+                new[]
+                {
+                    new KeyboardButton("Меню"),
+                    new KeyboardButton("Контакты")
+                },
+                new[]
+                {
+                    new KeyboardButton("Заказать звонок"),
+                    new KeyboardButton("Показать на карте")
+                }
+            }, true, true);
+            return replyKeyboard;
+        }
+        
+
+        public static async void CreateStartStatement(MessageEventArgs messageEventArgs)
         {
             CreateKeyboardButtons(messageEventArgs);
             var inlineMenu = new InlineMenu();
