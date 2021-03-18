@@ -47,7 +47,7 @@ namespace TelegramBot.InlinePanels
                     DataConnection.GetImage("Menu"), "Меню:",
                     replyMarkup: inlineKeyboard);
             
-                DataBaseContext.SaveMessageId(userId, message.MessageId);
+                DataBaseContext.SetMessageId(userId, message.MessageId);
                 DataBaseContext.SetStepId(userId, (int)InlinePanelStep.Menu);
             }
             catch (Exception e)

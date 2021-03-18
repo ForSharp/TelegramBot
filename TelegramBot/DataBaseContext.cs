@@ -118,7 +118,7 @@ namespace TelegramBot
             }
         }
 
-        public static void SaveMessageId(int userId, int messageId)
+        public static void SetMessageId(int userId, int messageId)
         {
             try
             {
@@ -213,7 +213,6 @@ namespace TelegramBot
                 sqLiteCommand.CommandText =
                     $"SELECT UserId FROM RegUsers WHERE UserName = {userNameSqL}";
                 var userId = Convert.ToInt32(sqLiteCommand.ExecuteScalar());
-                sqLiteCommand.ExecuteScalar();
                 connection.Close();
                 return userId;
             }
@@ -234,8 +233,6 @@ namespace TelegramBot
                 var targetNameSqL = "\"" + targetName + "\"";
                 sqLiteCommand.CommandText = $"UPDATE AdminInfo Set TargetName = {targetNameSqL} WHERE UserId = {userId}";
                 sqLiteCommand.ExecuteNonQuery();
-                //sqLiteCommand.ExecuteScalar();
-                //sqLiteCommand.ExecuteReader();
                 connection.Close();
             }
             catch (Exception e)

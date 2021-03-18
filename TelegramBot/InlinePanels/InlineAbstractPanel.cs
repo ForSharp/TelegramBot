@@ -40,7 +40,7 @@ namespace TelegramBot.InlinePanels
         {
             var message = await BotController.Bot.SendPhotoAsync(userId, "", replyMarkup: (InlineKeyboardMarkup) null);
             var stepId = 0;
-            DataBaseContext.SaveMessageId(userId, message.MessageId);
+            DataBaseContext.SetMessageId(userId, message.MessageId);
             DataBaseContext.SetStepId(userId, stepId);
         }
 

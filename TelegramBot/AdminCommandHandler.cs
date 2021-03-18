@@ -41,7 +41,6 @@ namespace TelegramBot
                     if (messageEventArgs.Message.Text != "Подтвердить")
                     {
                         AdminCommand.ConfirmUser(userId, tempUserName);
-                        //DataBaseContext.SetTargetName(userId, tempUserName);
                     }
                     break;
                 case (int) AdminCommandStep.ConfirmUser:
@@ -70,7 +69,7 @@ namespace TelegramBot
 
         private static async void Undo(int userId)
         {
-            await BotController.Bot.SendTextMessageAsync(userId, ".",
+            await BotController.Bot.SendTextMessageAsync(userId, "Смена кнопок",
                 replyMarkup: TextMessageProcessor.CreateDefaultButtons());
             DataBaseContext.SetCommandId(userId, (int) AdminCommandStep.Default);
         }

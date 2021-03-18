@@ -48,7 +48,7 @@ namespace TelegramBot
                     }
                 }, true, true);
                 
-                await BotController.Bot.SendTextMessageAsync(userId, ".", 
+                await BotController.Bot.SendTextMessageAsync(userId, "Смена кнопок", 
                     replyMarkup: replyKeyboard);
             }
             catch (Exception ex)
