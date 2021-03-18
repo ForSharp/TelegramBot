@@ -7,7 +7,8 @@ namespace TelegramBot
     {
         public static async void HandleAdminCommands(MessageEventArgs messageEventArgs)
         {
-            //проверить админность
+            if (!DataBaseContextAdmin.CheckAdminRights(messageEventArgs.Message.From.Id))
+                return;
 
             var userId = messageEventArgs.Message.From.Id;
             

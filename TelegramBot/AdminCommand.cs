@@ -29,8 +29,7 @@ namespace TelegramBot
             
             DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.ConfirmUser);
         }
-        
-        
+
         private static async void CreateKeyboardButtons(int userId)
         {
             try

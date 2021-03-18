@@ -116,6 +116,9 @@ namespace TelegramBot
             
             AdminCommandHandler.HandleAdminCommands(messageEventArgs);
             
+            if(DataBaseContextAdmin.GetCommandId(messageEventArgs.Message.From.Id) != (int) AdminCommandStep.Default)
+                return;
+            
             switch (messageEventArgs.Message.Text.ToLower().Trim())
             {
                 case "/start":

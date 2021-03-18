@@ -6,6 +6,26 @@ namespace TelegramBot
 {
     public static class DataBaseContextAdmin 
     {
+        public static bool CheckAdminRights(int userId)
+        {
+            try
+            {
+                var connection = DataBaseContext.ConnectSqLite();
+                connection.Open();
+                SQLiteCommand sqLiteCommand = connection.CreateCommand();
+                sqLiteCommand.CommandText =
+                    $"SELECT IsAdmin FROM AdminInfo WHERE UserId = {userId}";
+                var isAdmin = Convert.ToBoolean(sqLiteCommand.ExecuteScalar());
+                connection.Close();
+                return isAdmin;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+        
         public static string[] GetAllUserNames()
         {
             var users = new List<string>();
