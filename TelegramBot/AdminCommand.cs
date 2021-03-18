@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using Telegram.Bot.Args;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace TelegramBot
@@ -70,7 +70,11 @@ namespace TelegramBot
                 Console.WriteLine(e);
                 await BotController.Bot.SendTextMessageAsync(messageEventArgs.Message.From.Id, $"Пользователю {userName} не удалось присвоить права администратора. \n{e.Message}");
             }
-           
+        }
+
+        public static async void ForwardMessage(int userId, int targetId, int messageId)
+        {
+            await BotController.Bot.ForwardMessageAsync(targetId, userId, messageId);
         }
     }
 }
