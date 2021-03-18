@@ -76,7 +76,7 @@ namespace TelegramBot
                 var connection = ConnectSqLite();
                 connection.Open();
                 SQLiteCommand sqLiteCommand = connection.CreateCommand();
-                sqLiteCommand.CommandText = $@"SELECT UserName FROM RegUsers";
+                sqLiteCommand.CommandText = @"SELECT UserName FROM RegUsers";
                 SQLiteDataReader sqLiteDataReader = sqLiteCommand.ExecuteReader();
                 while (sqLiteDataReader.Read())
                 {
@@ -116,7 +116,6 @@ namespace TelegramBot
                 //Console.WriteLine(e.Message);
                 //Ignored
             }
-            
         }
 
         public static void SaveMessageId(int userId, int messageId)
@@ -188,10 +187,11 @@ namespace TelegramBot
                 {
                     throw new Exception();
                 }
-                sqLiteCommand.CommandText = "INSERT INTO AdminInfo VALUES(@UserId, @IsAdmin, @CommandId)";
+                sqLiteCommand.CommandText = "INSERT INTO AdminInfo VALUES(@UserId, @IsAdmin, @CommandId, @TargetName)";
                 sqLiteCommand.Parameters.AddWithValue("@UserId", userId);
                 sqLiteCommand.Parameters.AddWithValue("@IsAdmin", true);
-                sqLiteCommand.Parameters.AddWithValue("@CommandId", null);
+                sqLiteCommand.Parameters.AddWithValue("@CommandId", 0);
+                sqLiteCommand.Parameters.AddWithValue("@TargetName", null);
                 sqLiteCommand.ExecuteNonQuery();
                 connection.Close();
             }
@@ -209,10 +209,11 @@ namespace TelegramBot
                 var connection = ConnectSqLite();
                 connection.Open();
                 SQLiteCommand sqLiteCommand = connection.CreateCommand();
+                var userNameSqL = "\"" + userName + "\"";
                 sqLiteCommand.CommandText =
-                    $"SELECT UserId FROM RegUsers WHERE UserName = {userName}";
+                    $"SELECT UserId FROM RegUsers WHERE UserName = {userNameSqL}";
                 var userId = Convert.ToInt32(sqLiteCommand.ExecuteScalar());
-                sqLiteCommand.ExecuteNonQuery();
+                sqLiteCommand.ExecuteScalar();
                 connection.Close();
                 return userId;
             }
@@ -220,6 +221,46 @@ namespace TelegramBot
             {
                 Console.WriteLine(e);
                 return 0;
+            }
+        }
+
+        public static void SetTargetName(int userId, string targetName)
+        {
+            try
+            {
+                var connection = ConnectSqLite();
+                connection.Open();
+                SQLiteCommand sqLiteCommand = connection.CreateCommand();
+                var targetNameSqL = "\"" + targetName + "\"";
+                sqLiteCommand.CommandText = $"UPDATE AdminInfo Set TargetName = {targetNameSqL} WHERE UserId = {userId}";
+                sqLiteCommand.ExecuteNonQuery();
+                //sqLiteCommand.ExecuteScalar();
+                //sqLiteCommand.ExecuteReader();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+        public static string GetTargetName(int userId)
+        {
+            try
+            {
+                var connection = ConnectSqLite();
+                connection.Open();
+                SQLiteCommand sqLiteCommand = connection.CreateCommand();
+                sqLiteCommand.CommandText =
+                    $"SELECT TargetName FROM AdminInfo WHERE UserId = {userId}";
+                var targetName = Convert.ToString(sqLiteCommand.ExecuteScalar());
+                connection.Close();
+                return targetName;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
             }
         }
 
@@ -260,6 +301,5 @@ namespace TelegramBot
                 throw;
             }
         }
-        
     }
 }

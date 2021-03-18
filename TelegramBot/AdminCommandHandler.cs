@@ -13,8 +13,7 @@ namespace TelegramBot
             
             var commandId = DataBaseContext.GetCommandId(userId);
 
-            string tempUserName = "";
-
+            
             switch (commandId)
             {
                 case (int) AdminCommandStep.Default:
@@ -24,33 +23,31 @@ namespace TelegramBot
                     }
                     break;
                 case (int) AdminCommandStep.ShowUsers:
-                    tempUserName = messageEventArgs.Message.Text;
+                    var tempUserName = messageEventArgs.Message.Text;
+                    DataBaseContext.SetTargetName(userId, tempUserName);
+                    
                     if (messageEventArgs.Message.Text == "Подтвердить")
                     {
                         await BotController.Bot.SendTextMessageAsync(userId, "Введите username");
                     }
                     if (messageEventArgs.Message.Text == "Назад")
                     {
-                        await BotController.Bot.SendTextMessageAsync(userId, ".",
-                            replyMarkup: TextMessageProcessor.CreateDefaultButtons());
-                        DataBaseContext.SetCommandId(userId, (int) AdminCommandStep.Default);
+                        Undo(userId);
                     }
                     if (messageEventArgs.Message.Text == "Отмена")
                     {
-                        await BotController.Bot.SendTextMessageAsync(userId, ".",
-                            replyMarkup: TextMessageProcessor.CreateDefaultButtons());
-                        DataBaseContext.SetCommandId(userId, (int) AdminCommandStep.Default);
+                        Undo(userId);
                     }
                     if (messageEventArgs.Message.Text != "Подтвердить")
                     {
                         AdminCommand.ConfirmUser(userId, tempUserName);
+                        //DataBaseContext.SetTargetName(userId, tempUserName);
                     }
                     break;
                 case (int) AdminCommandStep.ConfirmUser:
                     if (messageEventArgs.Message.Text == "Подтвердить")
                     {
-                        AdminCommand.AppointAdmin(messageEventArgs, tempUserName);
-                        
+                        AdminCommand.AppointAdmin(messageEventArgs, DataBaseContext.GetTargetName(userId));
                         Thread.Sleep(10);
                         TextMessageProcessor.CreateDefaultButtons();
                         DataBaseContext.SetCommandId(userId, (int) AdminCommandStep.Default);
@@ -61,18 +58,21 @@ namespace TelegramBot
                     }
                     if (messageEventArgs.Message.Text == "Отмена")
                     {
-                        await BotController.Bot.SendTextMessageAsync(userId, ".",
-                            replyMarkup: TextMessageProcessor.CreateDefaultButtons());
-                        DataBaseContext.SetCommandId(userId, (int) AdminCommandStep.Default);
+                        Undo(userId);
                     }
                     else
                     {
-                        await BotController.Bot.SendTextMessageAsync(userId, ".",
-                            replyMarkup: TextMessageProcessor.CreateDefaultButtons());
-                        DataBaseContext.SetCommandId(userId, (int) AdminCommandStep.Default);
+                        Undo(userId);
                     }
                     break;
             }
+        }
+
+        private static async void Undo(int userId)
+        {
+            await BotController.Bot.SendTextMessageAsync(userId, ".",
+                replyMarkup: TextMessageProcessor.CreateDefaultButtons());
+            DataBaseContext.SetCommandId(userId, (int) AdminCommandStep.Default);
         }
     }
 }

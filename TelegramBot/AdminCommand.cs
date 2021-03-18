@@ -63,7 +63,7 @@ namespace TelegramBot
             {
                 DataBaseContext.ChangeUserStatus(userName);
                 await BotController.Bot.SendTextMessageAsync(messageEventArgs.Message.From.Id, $"Пользователю {userName} присвоены права администратора.");
-                await BotController.Bot.SendTextMessageAsync(DataBaseContext.GetUserIdByUserName(userName), $"{BotController.GetAvailableSenderName(messageEventArgs)}" +
+                await BotController.Bot.SendTextMessageAsync(DataBaseContext.GetUserIdByUserName(userName), $"{BotController.GetAvailableSenderName(messageEventArgs)} " +
                     $"присвоил вам права администратора. Для вывода команд введите /admin");
             }
             catch (Exception e)
