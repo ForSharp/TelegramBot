@@ -9,7 +9,7 @@ namespace TelegramBot
     {
         private static async void CreateKeyboardButtons(MessageEventArgs messageEventArgs)
         {
-            if (DataBaseContext.GetCommandId(messageEventArgs.Message.From.Id) != (int) AdminCommandStep.Default)
+            if (DataBaseContextAdmin.GetCommandId(messageEventArgs.Message.From.Id) != (int) AdminCommandStep.Default)
                 return;
             
             try

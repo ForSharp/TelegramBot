@@ -10,7 +10,7 @@ namespace TelegramBot
     {
         public static async void ShowUsers(int userId)
         {
-            var users = DataBaseContext.GetAllUserNames();
+            var users = DataBaseContextAdmin.GetAllUserNames();
             var userNames = string.Join(", ", users);
             await BotController.Bot.SendTextMessageAsync(userId,
                 "Выберите и введите username пользователя, которого хотите назначить администратором.");
@@ -19,7 +19,7 @@ namespace TelegramBot
 
             CreateKeyboardButtons(userId);
             
-            DataBaseContext.SetCommandId(userId, (int) AdminCommandStep.ShowUsers);
+            DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.ShowUsers);
         }
 
         public static async void ConfirmUser(int userId, string userName)
@@ -27,7 +27,7 @@ namespace TelegramBot
             await BotController.Bot.SendTextMessageAsync(userId,
                 $"Вы собираетесь присвоить права администратора пользователю {userName}?");
             
-            DataBaseContext.SetCommandId(userId, (int) AdminCommandStep.ConfirmUser);
+            DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.ConfirmUser);
         }
         
         
@@ -61,9 +61,9 @@ namespace TelegramBot
         {
             try
             {
-                DataBaseContext.ChangeUserStatus(userName);
+                DataBaseContextAdmin.ChangeUserStatus(userName);
                 await BotController.Bot.SendTextMessageAsync(messageEventArgs.Message.From.Id, $"Пользователю {userName} присвоены права администратора.");
-                await BotController.Bot.SendTextMessageAsync(DataBaseContext.GetUserIdByUserName(userName), $"{BotController.GetAvailableSenderName(messageEventArgs)} " +
+                await BotController.Bot.SendTextMessageAsync(DataBaseContextAdmin.GetUserIdByUserName(userName), $"{BotController.GetAvailableSenderName(messageEventArgs)} " +
                     $"присвоил вам права администратора. Для вывода команд введите /admin");
             }
             catch (Exception e)

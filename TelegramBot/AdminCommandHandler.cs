@@ -11,7 +11,7 @@ namespace TelegramBot
 
             var userId = messageEventArgs.Message.From.Id;
             
-            var commandId = DataBaseContext.GetCommandId(userId);
+            var commandId = DataBaseContextAdmin.GetCommandId(userId);
 
             
             switch (commandId)
@@ -24,7 +24,7 @@ namespace TelegramBot
                     break;
                 case (int) AdminCommandStep.ShowUsers:
                     var tempUserName = messageEventArgs.Message.Text;
-                    DataBaseContext.SetTargetName(userId, tempUserName);
+                    DataBaseContextAdmin.SetTargetName(userId, tempUserName);
                     
                     if (messageEventArgs.Message.Text == "Подтвердить")
                     {
@@ -46,10 +46,10 @@ namespace TelegramBot
                 case (int) AdminCommandStep.ConfirmUser:
                     if (messageEventArgs.Message.Text == "Подтвердить")
                     {
-                        AdminCommand.AppointAdmin(messageEventArgs, DataBaseContext.GetTargetName(userId));
+                        AdminCommand.AppointAdmin(messageEventArgs, DataBaseContextAdmin.GetTargetName(userId));
                         Thread.Sleep(10);
                         TextMessageProcessor.CreateDefaultButtons();
-                        DataBaseContext.SetCommandId(userId, (int) AdminCommandStep.Default);
+                        DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.Default);
                     }
                     if (messageEventArgs.Message.Text == "Назад")
                     {
@@ -71,7 +71,7 @@ namespace TelegramBot
         {
             await BotController.Bot.SendTextMessageAsync(userId, "Смена кнопок",
                 replyMarkup: TextMessageProcessor.CreateDefaultButtons());
-            DataBaseContext.SetCommandId(userId, (int) AdminCommandStep.Default);
+            DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.Default);
         }
     }
 }
