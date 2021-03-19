@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using Telegram.Bot.Args;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace TelegramBot
@@ -10,6 +9,8 @@ namespace TelegramBot
     {
         public static async void ShowUsers(int userId)
         {
+            CreateKeyboardButtons(userId);
+            
             var users = DataBaseContextAdmin.GetAllUserNames();
             var userNames = string.Join(", ", users);
             await BotController.Bot.SendTextMessageAsync(userId,
@@ -17,8 +18,6 @@ namespace TelegramBot
             Thread.Sleep(10);
             await BotController.Bot.SendTextMessageAsync(userId, userNames);
 
-            CreateKeyboardButtons(userId);
-            
             DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.ShowUsers);
         }
 
@@ -49,6 +48,8 @@ namespace TelegramBot
                 
                 await BotController.Bot.SendTextMessageAsync(userId, "Смена кнопок", 
                     replyMarkup: replyKeyboard);
+                
+                Thread.Sleep(10);
             }
             catch (Exception ex)
             {
@@ -72,9 +73,52 @@ namespace TelegramBot
             }
         }
 
-        public static async void ForwardMessage(int userId, int targetId, int messageId)
+        public static async void GetForwardingMessage(int userId)
         {
-            await BotController.Bot.ForwardMessageAsync(targetId, userId, messageId);
+            try
+            {
+                CreateKeyboardButtons(userId);
+            
+                await BotController.Bot.SendTextMessageAsync(userId,
+                    "Введите сообщение для рассылки.");
+            
+                DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.SendMessage);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            
+        }
+
+        public static async void ConfirmForwardingMessage(int userId, int messageId)
+        {
+            try
+            {
+                await BotController.Bot.SendTextMessageAsync(userId,
+                    "Отправить всем следующее сообщение?");
+                await BotController.Bot.ForwardMessageAsync(userId, userId, messageId);
+            
+                DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.ConfirmSending);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            
+        }
+        
+        public static async void ForwardMessage(int targetId, int userId, int messageId)
+        {
+            try
+            {
+                await BotController.Bot.ForwardMessageAsync(targetId, userId, messageId);
+                
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }

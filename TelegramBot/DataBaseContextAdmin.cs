@@ -93,10 +93,11 @@ namespace TelegramBot
                 {
                     throw new Exception();
                 }
-                sqLiteCommand.CommandText = "INSERT INTO AdminInfo VALUES(@UserId, @IsAdmin, @CommandId, @TargetName)";
+                sqLiteCommand.CommandText = "INSERT INTO AdminInfo VALUES(@UserId, @IsAdmin, @CommandId, @ForwardingMessageId, @TargetName)";
                 sqLiteCommand.Parameters.AddWithValue("@UserId", userId);
                 sqLiteCommand.Parameters.AddWithValue("@IsAdmin", true);
                 sqLiteCommand.Parameters.AddWithValue("@CommandId", 0);
+                sqLiteCommand.Parameters.AddWithValue("@ForwardingMessageId", 0);
                 sqLiteCommand.Parameters.AddWithValue("@TargetName", null);
                 sqLiteCommand.ExecuteNonQuery();
                 connection.Close();
@@ -195,6 +196,44 @@ namespace TelegramBot
                 connection.Open();
                 SQLiteCommand sqLiteCommand = connection.CreateCommand();
                 sqLiteCommand.CommandText = $"UPDATE AdminInfo Set CommandId = {commandId} WHERE UserId = {userId}";
+                sqLiteCommand.ExecuteNonQuery();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+        
+        public static int GetForwardingMessageId(int userId)
+        {
+            try
+            {
+                var connection = DataBaseContext.ConnectSqLite();
+                connection.Open();
+                SQLiteCommand sqLiteCommand = connection.CreateCommand();
+                sqLiteCommand.CommandText =
+                    $"SELECT ForwardingMessageId FROM AdminInfo WHERE UserId = {userId}";
+                var stepId = Convert.ToInt32(sqLiteCommand.ExecuteScalar());
+                connection.Close();
+                return stepId;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return 0;
+            }
+        }
+        
+        public static void SetForwardingMessageId(int userId, int forwardingMessageId)
+        {
+            try
+            {
+                var connection = DataBaseContext.ConnectSqLite();
+                connection.Open();
+                SQLiteCommand sqLiteCommand = connection.CreateCommand();
+                sqLiteCommand.CommandText = $"UPDATE AdminInfo Set ForwardingMessageId = {forwardingMessageId} WHERE UserId = {userId}";
                 sqLiteCommand.ExecuteNonQuery();
                 connection.Close();
             }
