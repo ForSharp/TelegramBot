@@ -10,6 +10,7 @@ namespace TelegramBot
         public static async void ShowUsers(int userId)
         {
             CreateKeyboardButtons(userId);
+            Thread.Sleep(10);
             
             var users = DataBaseContextAdmin.GetAllUserNames();
             var userNames = string.Join(", ", users);
@@ -49,7 +50,6 @@ namespace TelegramBot
                 await BotController.Bot.SendTextMessageAsync(userId, "Смена кнопок", 
                     replyMarkup: replyKeyboard);
                 
-                Thread.Sleep(10);
             }
             catch (Exception ex)
             {
@@ -78,9 +78,10 @@ namespace TelegramBot
             try
             {
                 CreateKeyboardButtons(userId);
+                Thread.Sleep(10);
             
                 await BotController.Bot.SendTextMessageAsync(userId,
-                    "Введите сообщение для рассылки.");
+                    "Отправьте сообщение для рассылки (только текст (обычный и форматированный) и эмодзи).");
             
                 DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.SendMessage);
             }
@@ -103,7 +104,7 @@ namespace TelegramBot
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine(e.Message);
             }
             
         }
@@ -113,11 +114,10 @@ namespace TelegramBot
             try
             {
                 await BotController.Bot.ForwardMessageAsync(targetId, userId, messageId);
-                
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine(e.Message);
             }
         }
     }
