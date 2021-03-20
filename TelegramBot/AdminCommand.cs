@@ -89,7 +89,6 @@ namespace TelegramBot
             {
                 Console.WriteLine(e);
             }
-            
         }
 
         public static async void ConfirmForwardingMessage(int userId, int messageId)
@@ -106,7 +105,6 @@ namespace TelegramBot
             {
                 Console.WriteLine(e.Message);
             }
-            
         }
         
         public static async void ForwardMessage(int targetId, int userId, int messageId)
@@ -120,5 +118,7 @@ namespace TelegramBot
                 Console.WriteLine(e.Message);
             }
         }
+        
+        
     }
 }

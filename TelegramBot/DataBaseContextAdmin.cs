@@ -243,5 +243,35 @@ namespace TelegramBot
                 throw;
             }
         }
+
+        public static void AddTrip()
+        {
+            try
+            {
+                var connection = DataBaseContext.ConnectSqLite();
+                connection.Open();
+                SQLiteCommand sqLiteCommand = connection.CreateCommand();
+                sqLiteCommand.CommandText = 
+                    "INSERT INTO Timetable VALUES(@Id, @DeparturePlace, @DepartureDate, @DepartureTime, @ArrivalPlace, @ArrivalDate, @ArrivalTime)";
+                sqLiteCommand.Parameters.AddWithValue("@Id", null);
+                sqLiteCommand.Parameters.AddWithValue("@DeparturePlace", null);
+                sqLiteCommand.Parameters.AddWithValue("@DepartureDate", null);
+                sqLiteCommand.Parameters.AddWithValue("@DepartureTime", null);
+                sqLiteCommand.Parameters.AddWithValue("@ArrivalPlace", null);
+                sqLiteCommand.Parameters.AddWithValue("@ArrivalDate", null);
+                sqLiteCommand.Parameters.AddWithValue("@ArrivalTime", null);
+                sqLiteCommand.ExecuteNonQuery();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+        public static void DeleteTrip()
+        {
+            
+        }
     }
 }
