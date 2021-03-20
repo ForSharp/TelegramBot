@@ -29,6 +29,11 @@ namespace TelegramBot
                     {
                         AdminCommand.GetForwardingMessage(userId);
                     }
+                    
+                    if (messageEventArgs.Message.Text == "/t")
+                    {
+                        AdminCommand.GetForwardingMessage(userId);
+                    }
                     break;
                 case (int) AdminCommandStep.ShowUsers:
                     var tempUserName = messageEventArgs.Message.Text;
@@ -115,7 +120,7 @@ namespace TelegramBot
 
         private static async void Undo(int userId)
         {
-            await BotController.Bot.SendTextMessageAsync(userId, "Смена кнопок",
+            await BotController.Bot.SendTextMessageAsync(userId, "Для вывода команд введите /admin",
                 replyMarkup: TextMessageProcessor.CreateDefaultButtons());
             DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.Default);
         }
