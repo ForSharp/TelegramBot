@@ -26,8 +26,9 @@ namespace TelegramBot
             
             DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.ConfirmUser);
         }
-
-        public static ReplyKeyboardMarkup CreateKeyboardButtons()
+        
+        
+        private static ReplyKeyboardMarkup CreateKeyboardButtons()
         {
             var replyKeyboard = new ReplyKeyboardMarkup(new[]
             {
@@ -106,7 +107,31 @@ namespace TelegramBot
 
         public static async void EditTimetable(int userId)
         {
+            try
+            {
+                var replyKeyboard = new ReplyKeyboardMarkup(new[]
+                {
+                    new[]
+                    {
+                        new KeyboardButton("Добавить рейс"),
+                        new KeyboardButton("Редактировать рейс"),
+                        new KeyboardButton("Удалить рейс")
+                    },
+                    new[]
+                    {
+                        new KeyboardButton("Отмена")
+                    }
+                }, true, true);
             
+                await BotController.Bot.SendTextMessageAsync(userId,
+                    "Выберите действие с расписанием", replyMarkup: replyKeyboard);
+            
+                DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.EditTimetable);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }

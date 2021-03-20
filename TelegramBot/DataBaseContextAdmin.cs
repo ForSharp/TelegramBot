@@ -333,14 +333,15 @@ namespace TelegramBot
             }
         }
         
-        public static void UpdateTrip(int tripId, string column, string content)
+        public static void UpdateTripColumn(int tripId, string column, string content)
         {
             try
             {
+                var contentSqL = "\"" + content + "\"";
                 var connection = DataBaseContext.ConnectSqLite();
                 connection.Open();
                 SQLiteCommand sqLiteCommand = connection.CreateCommand();
-                sqLiteCommand.CommandText = $"UPDATE Timetable Set {column} = {content} WHERE TripId = {tripId}";
+                sqLiteCommand.CommandText = $"UPDATE Timetable Set {column} = {contentSqL} WHERE TripId = {tripId}";
                 sqLiteCommand.ExecuteNonQuery();
                 connection.Close();
             }
