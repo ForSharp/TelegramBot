@@ -253,8 +253,8 @@ namespace TelegramBot
                 connection.Open();
                 SQLiteCommand sqLiteCommand = connection.CreateCommand();
                 sqLiteCommand.CommandText = 
-                    "INSERT INTO Timetable VALUES(@Id, @DeparturePlace, @DepartureDate, @DepartureTime, @ArrivalPlace, @ArrivalDate, @ArrivalTime)";
-                sqLiteCommand.Parameters.AddWithValue("@Id", null);
+                    "INSERT INTO Timetable VALUES(@TripId, @DeparturePlace, @DepartureDate, @DepartureTime, @ArrivalPlace, @ArrivalDate, @ArrivalTime)";
+                sqLiteCommand.Parameters.AddWithValue("@TripId", null);
                 sqLiteCommand.Parameters.AddWithValue("@DeparturePlace", null);
                 sqLiteCommand.Parameters.AddWithValue("@DepartureDate", null);
                 sqLiteCommand.Parameters.AddWithValue("@DepartureTime", null);
@@ -278,7 +278,7 @@ namespace TelegramBot
                 var connection = DataBaseContext.ConnectSqLite();
                 connection.Open();
                 SQLiteCommand sqLiteCommand = connection.CreateCommand();
-                sqLiteCommand.CommandText = @"SELECT Id FROM Timetable";
+                sqLiteCommand.CommandText = @"SELECT TripId FROM Timetable";
                 SQLiteDataReader sqLiteDataReader = sqLiteCommand.ExecuteReader();
                 while (sqLiteDataReader.Read())
                 {
@@ -305,9 +305,9 @@ namespace TelegramBot
                 SQLiteCommand sqLiteCommand = connection.CreateCommand();
                 sqLiteCommand.CommandText =
                     $"SELECT TripId FROM AdminInfo WHERE UserId = {userId}";
-                var stepId = Convert.ToInt32(sqLiteCommand.ExecuteScalar());
+                var tripId = Convert.ToInt32(sqLiteCommand.ExecuteScalar());
                 connection.Close();
-                return stepId;
+                return tripId;
             }
             catch (Exception e)
             {
@@ -333,9 +333,21 @@ namespace TelegramBot
             }
         }
         
-        public static void DeleteTrip(int id)
+        public static void DeleteTrip(int tripId)
         {
-            
+            try
+            {
+                var connection = DataBaseContext.ConnectSqLite();
+                connection.Open();
+                SQLiteCommand sqLiteCommand = connection.CreateCommand();
+                sqLiteCommand.CommandText = $"DELETE FROM Timetable WHERE TripId = {tripId}";
+                sqLiteCommand.ExecuteNonQuery();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }
