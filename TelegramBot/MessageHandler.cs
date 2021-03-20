@@ -138,6 +138,9 @@ namespace TelegramBot
                 case "показать на карте":
                     TextMessageProcessor.ShowInTheMap(messageEventArgs);
                     break;
+                case "test":
+                    DataBaseContextAdmin.AddTrip();
+                    break;
                 default:
                     break;
             }
