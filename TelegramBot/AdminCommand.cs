@@ -45,6 +45,20 @@ namespace TelegramBot
 
             return replyKeyboard;
         }
+        
+        public static ReplyKeyboardMarkup CreateSimpleKeyboard()
+        {
+            var replyKeyboard = new ReplyKeyboardMarkup(new[]
+            {
+                new[]
+                {
+                    new KeyboardButton("Назад"),
+                    new KeyboardButton("Отмена")
+                }
+            }, true, true);
+
+            return replyKeyboard;
+        }
 
         public static async void AppointAdmin(MessageEventArgs messageEventArgs, string userName)
         {

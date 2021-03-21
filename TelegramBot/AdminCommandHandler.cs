@@ -14,6 +14,7 @@ namespace TelegramBot
                 return;
 
             var userId = messageEventArgs.Message.From.Id;
+            var message = messageEventArgs.Message.Text;
             
             var commandId = DataBaseContextAdmin.GetCommandId(userId);
 
@@ -123,157 +124,30 @@ namespace TelegramBot
                         DataBaseContextAdmin.AddTrip();
                         DataBaseContextAdmin.SetTripId(userId, DataBaseContextAdmin.GetLastTripId());
                         DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.DeparturePlace);
-                        await BotController.Bot.SendTextMessageAsync(userId, "Откуда рейс?", replyMarkup: CreateSimpleKeyboard());
+                        await BotController.Bot.SendTextMessageAsync(userId, "Откуда рейс?", replyMarkup: AdminCommand.CreateSimpleKeyboard());
+                    }
+                    if (messageEventArgs.Message.Text == "Отмена")
+                    {
+                        Undo(userId);
                     }
                     break;
                 case (int) AdminCommandStep.DeparturePlace:
-                    try
-                    {
-                        var temp = messageEventArgs.Message.Text;
-                        if (messageEventArgs.Message.Text == "Назад")
-                        {
-                            AdminCommand.EditTimetable(userId);
-                        }
-                        if (messageEventArgs.Message.Text == "Отмена")
-                        {
-                            Undo(userId);
-                        }
-                        if (!keyWords.Contains(messageEventArgs.Message.Text))
-                        {
-                            DataBaseContextAdmin.UpdateTripColumn(DataBaseContextAdmin.GetTripId(userId), 
-                                AdminCommandStep.DeparturePlace.ToString(), temp);
-                            DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.DepartureDate);
-                            await BotController.Bot.SendTextMessageAsync(userId, "Дата отправки?");
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                    }
+                    TimetableEditor.SetDeparturePlace(userId, message);
                     break;
                 case (int) AdminCommandStep.DepartureDate:
-                    try
-                    {
-                        var temp = messageEventArgs.Message.Text;
-                        if (messageEventArgs.Message.Text == "Назад")
-                        {
-                            DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.DeparturePlace);
-                        }
-                        if (messageEventArgs.Message.Text == "Отмена")
-                        {
-                            Undo(userId);
-                        }
-                        if (!keyWords.Contains(messageEventArgs.Message.Text))
-                        {
-                            DataBaseContextAdmin.UpdateTripColumn(DataBaseContextAdmin.GetTripId(userId), 
-                                AdminCommandStep.DepartureDate.ToString(), temp);
-                            DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.DepartureTime);
-                            await BotController.Bot.SendTextMessageAsync(userId, "Время отправки?");
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                    }
+                    TimetableEditor.SetDepartureDate(userId, message);
                     break;
                 case (int) AdminCommandStep.DepartureTime:
-                    try
-                    {
-                        var temp = messageEventArgs.Message.Text;
-                        if (messageEventArgs.Message.Text == "Назад")
-                        {
-                            DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.DepartureDate);
-                        }
-                        if (messageEventArgs.Message.Text == "Отмена")
-                        {
-                            Undo(userId);
-                        }
-                        if (!keyWords.Contains(messageEventArgs.Message.Text))
-                        {
-                            DataBaseContextAdmin.UpdateTripColumn(DataBaseContextAdmin.GetTripId(userId), 
-                                AdminCommandStep.DepartureTime.ToString(), temp);
-                            DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.ArrivalPlace);
-                            await BotController.Bot.SendTextMessageAsync(userId, "Место прибытия?");
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                    }
+                    TimetableEditor.SetDepartureTime(userId, message);
                     break;
                 case (int) AdminCommandStep.ArrivalPlace:
-                    try
-                    {
-                        var temp = messageEventArgs.Message.Text;
-                        if (messageEventArgs.Message.Text == "Назад")
-                        {
-                            DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.DepartureTime);
-                        }
-                        if (messageEventArgs.Message.Text == "Отмена")
-                        {
-                            Undo(userId);
-                        }
-                        if (!keyWords.Contains(messageEventArgs.Message.Text))
-                        {
-                            DataBaseContextAdmin.UpdateTripColumn(DataBaseContextAdmin.GetTripId(userId), 
-                                AdminCommandStep.ArrivalPlace.ToString(), temp);
-                            DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.ArrivalDate);
-                            await BotController.Bot.SendTextMessageAsync(userId, "Дата прибытия?");
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                    }
+                    TimetableEditor.SetArrivalPlace(userId, message);
                     break;
                 case (int) AdminCommandStep.ArrivalDate:
-                    try
-                    {
-                        var temp = messageEventArgs.Message.Text;
-                        if (messageEventArgs.Message.Text == "Назад")
-                        {
-                            DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.ArrivalPlace);
-                        }
-                        if (messageEventArgs.Message.Text == "Отмена")
-                        {
-                            Undo(userId);
-                        }
-                        if (!keyWords.Contains(messageEventArgs.Message.Text))
-                        {
-                            DataBaseContextAdmin.UpdateTripColumn(DataBaseContextAdmin.GetTripId(userId), 
-                                AdminCommandStep.ArrivalDate.ToString(), temp);
-                            DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.ArrivalTime);
-                            await BotController.Bot.SendTextMessageAsync(userId, "Время прибытия?");
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                    }
+                    TimetableEditor.SetArrivalDate(userId, message);
                     break;
                 case (int) AdminCommandStep.ArrivalTime:
-                    try
-                    {
-                        var temp = messageEventArgs.Message.Text;
-                        if (messageEventArgs.Message.Text == "Назад")
-                        {
-                            DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.ArrivalDate);
-                        }
-                        if (messageEventArgs.Message.Text == "Отмена")
-                        {
-                            Undo(userId);
-                        }
-                        if (!keyWords.Contains(messageEventArgs.Message.Text))
-                        {
-                            DataBaseContextAdmin.UpdateTripColumn(DataBaseContextAdmin.GetTripId(userId), 
-                                AdminCommandStep.ArrivalTime.ToString(), temp);
-                            AdminCommand.EditTimetable(userId);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                    }
+                    TimetableEditor.SetArrivalTime(userId, message);
                     break;
             }
         }
@@ -285,18 +159,6 @@ namespace TelegramBot
             DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.Default);
         }
         
-        private static ReplyKeyboardMarkup CreateSimpleKeyboard()
-        {
-            var replyKeyboard = new ReplyKeyboardMarkup(new[]
-            {
-                new[]
-                {
-                    new KeyboardButton("Назад"),
-                    new KeyboardButton("Отмена")
-                }
-            }, true, true);
-
-            return replyKeyboard;
-        }
+        
     }
 }
