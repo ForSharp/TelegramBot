@@ -94,12 +94,14 @@ namespace TelegramBot
                 {
                     throw new Exception();
                 }
-                sqLiteCommand.CommandText = "INSERT INTO AdminInfo VALUES(@UserId, @IsAdmin, @CommandId, @ForwardingMessageId, @TripId, @TargetName)";
+                sqLiteCommand.CommandText = 
+                    "INSERT INTO AdminInfo VALUES(@UserId, @IsAdmin, @CommandId, @ForwardingMessageId, @TripId, @ColumnId, @TargetName)";
                 sqLiteCommand.Parameters.AddWithValue("@UserId", userId);
                 sqLiteCommand.Parameters.AddWithValue("@IsAdmin", true);
                 sqLiteCommand.Parameters.AddWithValue("@CommandId", 0);
                 sqLiteCommand.Parameters.AddWithValue("@ForwardingMessageId", 0);
                 sqLiteCommand.Parameters.AddWithValue("@TripId", 0);
+                sqLiteCommand.Parameters.AddWithValue("@ColumnId", 0);
                 sqLiteCommand.Parameters.AddWithValue("@TargetName", null);
                 sqLiteCommand.ExecuteNonQuery();
                 connection.Close();
@@ -272,7 +274,7 @@ namespace TelegramBot
 
         public static int GetLastTripId()
         {
-            var users = new List<int>();
+            var trips = new List<int>();
             try
             {
                 var connection = DataBaseContext.ConnectSqLite();
@@ -282,12 +284,12 @@ namespace TelegramBot
                 SQLiteDataReader sqLiteDataReader = sqLiteCommand.ExecuteReader();
                 while (sqLiteDataReader.Read())
                 {
-                    users.Add(Convert.ToInt32(sqLiteDataReader[0]));
-                    users.Sort();
+                    trips.Add(Convert.ToInt32(sqLiteDataReader[0]));
+                    trips.Sort();
                 }
                 sqLiteDataReader.Close();
                 connection.Close();
-                return users[^1];
+                return trips[^1];
             }
             catch (Exception e)
             {
@@ -316,6 +318,35 @@ namespace TelegramBot
             }
         }
 
+        public static bool CheckTripId(int tripId)
+        {
+            var trips = new List<int>();
+            try
+            {
+                var connection = DataBaseContext.ConnectSqLite();
+                connection.Open();
+                SQLiteCommand sqLiteCommand = connection.CreateCommand();
+                sqLiteCommand.CommandText = @"SELECT TripId FROM Timetable";
+                SQLiteDataReader sqLiteDataReader = sqLiteCommand.ExecuteReader();
+                while (sqLiteDataReader.Read())
+                {
+                    trips.Add(Convert.ToInt32(sqLiteDataReader[0]));
+                    trips.Sort();
+                }
+                sqLiteDataReader.Close();
+                connection.Close();
+                if (trips.Contains(tripId))
+                    return true;
+
+                return false;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+        
         public static void SetTripId(int userId, int tripId)
         {
             try
@@ -324,6 +355,43 @@ namespace TelegramBot
                 connection.Open();
                 SQLiteCommand sqLiteCommand = connection.CreateCommand();
                 sqLiteCommand.CommandText = $"UPDATE AdminInfo Set TripId = {tripId} WHERE UserId = {userId}";
+                sqLiteCommand.ExecuteNonQuery();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+        
+        public static int GetColumnId(int userId)
+        {
+            try
+            {
+                var connection = DataBaseContext.ConnectSqLite();
+                connection.Open();
+                SQLiteCommand sqLiteCommand = connection.CreateCommand();
+                sqLiteCommand.CommandText =
+                    $"SELECT ColumnId FROM AdminInfo WHERE UserId = {userId}";
+                var columnId = Convert.ToInt32(sqLiteCommand.ExecuteScalar());
+                connection.Close();
+                return columnId;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return 0;
+            }
+        }
+
+        public static void SetColumnId(int userId, int columnId)
+        {
+            try
+            {
+                var connection = DataBaseContext.ConnectSqLite();
+                connection.Open();
+                SQLiteCommand sqLiteCommand = connection.CreateCommand();
+                sqLiteCommand.CommandText = $"UPDATE AdminInfo Set ColumnId = {columnId} WHERE UserId = {userId}";
                 sqLiteCommand.ExecuteNonQuery();
                 connection.Close();
             }

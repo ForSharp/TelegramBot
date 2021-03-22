@@ -14,9 +14,10 @@
         ArrivalDate = 304,
         ArrivalTime = 305,
         EditTimetable = 400,
-        EditTripColumn = 500,
-        SetTripColumnEdit = 600,
-        SetTripColumnDel = 601,
-        DeleteTrip = 700
+        ChooseTripColumn = 500,
+        EditTripColumn = 600,
+        SetTripColumnEdit = 700,
+        SetTripColumnDel = 701,
+        DeleteTrip = 800
     }
 }

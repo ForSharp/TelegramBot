@@ -43,11 +43,34 @@ namespace TelegramBot
         }
 
 
-        public static async void ChooseTripIdToEdit(int userId)
+        public static async void ChooseTripIdToEdit(int userId, string message)
         {
             try
             {
-                
+                var temp = message;
+                if (message == "Назад")
+                {
+                    EditTimetable(userId);
+                }
+                else if (message == "Отмена") 
+                {
+                    Undo(userId);
+                }
+                else if (!int.TryParse(temp, out var tempInt))
+                {
+                    await BotController.Bot.SendTextMessageAsync(userId, "Введите число, которое является ID рейса.");
+                }
+                else 
+                {
+                    if (!DataBaseContextAdmin.CheckTripId(tempInt))
+                    {
+                        await BotController.Bot.SendTextMessageAsync(userId, "Введите существующий ID рейса.");
+                    }
+                    DataBaseContextAdmin.SetTripId(userId, tempInt);
+                    await BotController.Bot.SendTextMessageAsync(userId, "Выберите, что будете редактировать.", 
+                        replyMarkup: KeyboardContainer.CreateTimetableEditTripKeyboard());
+                    DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.ChooseTripColumn);
+                }
             }
             catch (Exception e)
             {
@@ -55,19 +78,32 @@ namespace TelegramBot
             }
         }
         
-        public static async void ChooseTripIdToDelete(int userId)
+        public static async void ChooseTripIdToDelete(int userId, string message)
         {
             try
             {
-                
+                var temp = message;
+                if (message == "Назад")
+                {
+                    EditTimetable(userId);
+                }
+                if (message == "Отмена")
+                {
+                    Undo(userId);
+                }
+
+                if (!KeyWords.Contains(message))
+                {
+                    
+                }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
             }
         }
-
-        public static async void EditTripColumn(int userId, string command, string message)
+        
+        public static async void ChooseTripColumn(int userId, string message)
         {
             var keyCommands = new Dictionary<string, string>();
             keyCommands.Add("Место отправки", AdminCommandStep.ArrivalPlace.ToString());
@@ -77,9 +113,23 @@ namespace TelegramBot
             keyCommands.Add("Дата прибытия", AdminCommandStep.DepartureDate.ToString());
             keyCommands.Add("Время прибытия", AdminCommandStep.DepartureTime.ToString());
 
-            if (keyCommands.ContainsKey(command))
+            if (keyCommands.ContainsKey(message))
             {
-                
+                // keyCommands.TryGetValue(message, out var resMessage);
+                // if ()
+                // {
+                //     
+                // }
+                // await BotController.Bot.SendTextMessageAsync(userId, "Введите новое значение.");
+                // DataBaseContextAdmin.SetColumnId(userId, (int) AdminCommandStep.resMessage);
+            }
+            if (message == "Назад")
+            {
+                EditTimetable(userId);
+            }
+            else if (message == "Отмена") 
+            {
+                Undo(userId);
             }
             
         }
@@ -119,8 +169,7 @@ namespace TelegramBot
                 if (message == "Назад")
                 {
                     DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.DeparturePlace);
-                    await BotController.Bot.SendTextMessageAsync(userId, "Откуда рейс?", 
-                        replyMarkup:KeyboardContainer.CreateTwoKeyboardAdminButtons());
+                    await BotController.Bot.SendTextMessageAsync(userId, "Откуда рейс?");
                 }
                 if (message == "Отмена")
                 {

@@ -129,14 +129,12 @@ namespace TelegramBot
                     }
                     if (message == "Редактировать рейс")
                     {
-                        TimetableEditor.ChooseTripIdToEdit(userId);
                         await BotController.Bot.SendTextMessageAsync(userId, "Введите ID рейса для редактирования.", 
                             replyMarkup: KeyboardContainer.CreateTwoKeyboardAdminButtons());
                         DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.SetTripColumnEdit);
                     }
                     if (message == "Удалить рейс")
                     {
-                        TimetableEditor.ChooseTripIdToDelete(userId);
                         await BotController.Bot.SendTextMessageAsync(userId, "Введите ID рейса для удаления.",
                             replyMarkup: KeyboardContainer.CreateTwoKeyboardAdminButtons());
                         DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.SetTripColumnDel);
@@ -165,7 +163,10 @@ namespace TelegramBot
                     TimetableEditor.SetArrivalTime(userId, message);
                     break;
                 case (int) AdminCommandStep.SetTripColumnEdit:
-                    TimetableEditor.SetArrivalTime(userId, message);
+                    TimetableEditor.ChooseTripIdToEdit(userId, message);
+                    break;
+                case (int) AdminCommandStep.SetTripColumnDel:
+                    TimetableEditor.ChooseTripIdToDelete(userId, message);
                     break;
             }
         }
