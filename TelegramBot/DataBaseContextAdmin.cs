@@ -350,6 +350,49 @@ namespace TelegramBot
                 Console.WriteLine(e);
             }
         }
+
+        
+        
+        public static string[] GetTimetableTripsWithId()
+        {
+            var numbTrip = 0;
+            var trips = new List<string>();
+            
+            try
+            {
+                var connection = DataBaseContext.ConnectSqLite();
+                connection.Open();
+                SQLiteCommand sqLiteCommand = connection.CreateCommand();
+                sqLiteCommand.CommandText =
+                    $"SELECT TripId, DeparturePlace, DepartureDate, DepartureTime, ArrivalPlace, ArrivalDate, ArrivalTime FROM Timetable ORDER BY TripId ASC";
+                SQLiteDataReader sqLiteDataReader = sqLiteCommand.ExecuteReader();
+                while (sqLiteDataReader.Read())
+                {
+                    numbTrip++;
+                    var tripId = sqLiteDataReader.GetInt32(sqLiteDataReader.GetOrdinal("TripId"));
+                    var departurePlace = sqLiteDataReader.GetString(sqLiteDataReader.GetOrdinal("DeparturePlace"));
+                    var departureDate = sqLiteDataReader.GetString(sqLiteDataReader.GetOrdinal("DepartureDate"));
+                    var departureTime = sqLiteDataReader.GetString(sqLiteDataReader.GetOrdinal("DepartureTime"));
+                    var arrivalPlace = sqLiteDataReader.GetString(sqLiteDataReader.GetOrdinal("ArrivalPlace"));
+                    var arrivalDate = sqLiteDataReader.GetString(sqLiteDataReader.GetOrdinal("ArrivalDate"));
+                    var arrivalTime = sqLiteDataReader.GetString(sqLiteDataReader.GetOrdinal("ArrivalTime"));
+
+                    trips.Add($"ID: {tripId} \n{numbTrip}. {departurePlace}—{arrivalPlace}" +
+                              $"\nДата Отправки: {departureDate} [{departureTime}]" +
+                              $"\nДата Прибытия: {arrivalDate} [{arrivalTime}]\n\n");
+                }
+                sqLiteDataReader.Close();
+                connection.Close();
+
+                return trips.ToArray();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return trips.ToArray();
+            }
+        }
+        
         
         public static void DeleteTrip(int tripId)
         {

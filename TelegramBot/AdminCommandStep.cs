@@ -13,6 +13,10 @@
         ArrivalPlace = 303,
         ArrivalDate = 304,
         ArrivalTime = 305,
-        EditTimetable = 400
+        EditTimetable = 400,
+        EditTripColumn = 500,
+        SetTripColumnEdit = 600,
+        SetTripColumnDel = 601,
+        DeleteTrip = 700
     }
 }

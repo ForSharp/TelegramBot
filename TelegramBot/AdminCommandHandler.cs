@@ -23,56 +23,56 @@ namespace TelegramBot
             switch (commandId)
             {
                 case (int) AdminCommandStep.Default:
-                    if (messageEventArgs.Message.Text == "/a")
+                    if (message == "/a")
                     {
                         AdminCommand.ShowUsers(userId);
                     }
 
-                    if (messageEventArgs.Message.Text == "/s")
+                    if (message == "/s")
                     {
                         AdminCommand.GetForwardingMessage(userId);
                     }
                     
-                    if (messageEventArgs.Message.Text == "/t")
+                    if (message == "/t")
                     {
-                        AdminCommand.EditTimetable(userId);
+                        TimetableEditor.EditTimetable(userId);
                     }
                     break;
                 case (int) AdminCommandStep.ShowUsers:
-                    var tempUserName = messageEventArgs.Message.Text;
+                    var tempUserName = message;
                     DataBaseContextAdmin.SetTargetName(userId, tempUserName);
                     
-                    if (messageEventArgs.Message.Text == "Подтвердить")
+                    if (message == "Подтвердить")
                     {
                         await BotController.Bot.SendTextMessageAsync(userId, "Введите username");
                     }
-                    if (messageEventArgs.Message.Text == "Назад")
+                    if (message == "Назад")
                     {
                         Undo(userId);
                     }
-                    if (messageEventArgs.Message.Text == "Отмена")
+                    if (message == "Отмена")
                     {
                         Undo(userId);
                     }
-                    if (!keyWords.Contains(messageEventArgs.Message.Text))
+                    if (!keyWords.Contains(message))
                     {
                         AdminCommand.ConfirmUser(userId, tempUserName);
                     }
                     break;
                 case (int) AdminCommandStep.ConfirmUser:
                     
-                    if (messageEventArgs.Message.Text == "Подтвердить")
+                    if (message == "Подтвердить")
                     {
                         AdminCommand.AppointAdmin(messageEventArgs, DataBaseContextAdmin.GetTargetName(userId));
                         
                         Thread.Sleep(10);
                         Undo(userId);
                     }
-                    if (messageEventArgs.Message.Text == "Назад")
+                    if (message == "Назад")
                     {
                         AdminCommand.ShowUsers(userId);
                     }
-                    if (messageEventArgs.Message.Text == "Отмена")
+                    if (message == "Отмена")
                     {
                         Undo(userId);
                     }
@@ -80,25 +80,25 @@ namespace TelegramBot
                 case (int) AdminCommandStep.SendMessage:
                     var forwardingMessage = messageEventArgs.Message;
                     DataBaseContextAdmin.SetForwardingMessageId(userId, forwardingMessage.MessageId);
-                    if (messageEventArgs.Message.Text == "Подтвердить")
+                    if (message == "Подтвердить")
                     {
                         await BotController.Bot.SendTextMessageAsync(userId, "Введите сообщение для рассылки.");
                     }
-                    if (messageEventArgs.Message.Text == "Назад")
+                    if (message == "Назад")
                     {
                         Undo(userId);
                     }
-                    if (messageEventArgs.Message.Text == "Отмена")
+                    if (message == "Отмена")
                     {
                         Undo(userId);
                     }
-                    if (!keyWords.Contains(messageEventArgs.Message.Text))
+                    if (!keyWords.Contains(message))
                     {
                         AdminCommand.ConfirmForwardingMessage(userId, forwardingMessage.MessageId);
                     }
                     break;
                 case (int) AdminCommandStep.ConfirmSending:
-                    if (messageEventArgs.Message.Text == "Подтвердить")
+                    if (message == "Подтвердить")
                     {
                         var usersId = DataBaseContextAdmin.GetAllUserId();
                         foreach (var targetId in usersId)
@@ -109,7 +109,7 @@ namespace TelegramBot
                         Thread.Sleep(10);
                         Undo(userId);
                     }
-                    if (messageEventArgs.Message.Text == "Назад")
+                    if (message == "Назад")
                     {
                         AdminCommand.GetForwardingMessage(userId);
                     }
@@ -119,14 +119,26 @@ namespace TelegramBot
                     }
                     break;
                 case (int) AdminCommandStep.EditTimetable:
-                    if (messageEventArgs.Message.Text == "Добавить рейс")
+                    if (message == "Добавить рейс")
                     {
                         DataBaseContextAdmin.AddTrip();
                         DataBaseContextAdmin.SetTripId(userId, DataBaseContextAdmin.GetLastTripId());
                         DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.DeparturePlace);
                         await BotController.Bot.SendTextMessageAsync(userId, "Откуда рейс?", replyMarkup: AdminCommand.CreateSimpleKeyboard());
                     }
-                    if (messageEventArgs.Message.Text == "Отмена")
+                    if (message == "Редактировать рейс")
+                    {
+                        TimetableEditor.ChooseTripIdToEdit(userId);
+                        await BotController.Bot.SendTextMessageAsync(userId, "Введите ID рейса для редактирования.", replyMarkup: AdminCommand.CreateSimpleKeyboard());
+                        DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.SetTripColumnEdit);
+                    }
+                    if (message == "Удалить рейс")
+                    {
+                        TimetableEditor.ChooseTripIdToDelete(userId);
+                        await BotController.Bot.SendTextMessageAsync(userId, "Введите ID рейса для удаления.");
+                        DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.SetTripColumnDel);
+                    }
+                    if (message == "Отмена")
                     {
                         Undo(userId);
                     }
@@ -147,6 +159,9 @@ namespace TelegramBot
                     TimetableEditor.SetArrivalDate(userId, message);
                     break;
                 case (int) AdminCommandStep.ArrivalTime:
+                    TimetableEditor.SetArrivalTime(userId, message);
+                    break;
+                case (int) AdminCommandStep.SetTripColumnEdit:
                     TimetableEditor.SetArrivalTime(userId, message);
                     break;
             }

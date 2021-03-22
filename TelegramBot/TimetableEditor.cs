@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualBasic;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace TelegramBot
@@ -9,8 +10,93 @@ namespace TelegramBot
     {
         private static readonly string[] KeyWords = {"Подтвердить", "Отмена", "Назад"};
 
-        private static readonly Dictionary<string, string> KeyCommands = new Dictionary<string, string>();
+        public static async void EditTimetable(int userId)
+        {
+            try
+            {
+                var replyKeyboard = new ReplyKeyboardMarkup(new[]
+                {
+                    new[]
+                    {
+                        new KeyboardButton("Добавить рейс"),
+                        new KeyboardButton("Редактировать рейс"),
+                        new KeyboardButton("Удалить рейс")
+                    },
+                    new[]
+                    {
+                        new KeyboardButton("Отмена")
+                    }
+                }, true, true);
+            
+                await BotController.Bot.SendTextMessageAsync(userId,
+                    $"Какие действия произвести с текущим расписанием?" +
+                    $"{ShowTimetableWithId()}", replyMarkup: replyKeyboard);
+            
+                DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.EditTimetable);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
 
+        private static string ShowTimetableWithId()
+        {
+            try
+            {
+                string timetable = String.Join(null, DataBaseContextAdmin.GetTimetableTripsWithId());
+
+                return $"\n\n{timetable}";
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return " ";
+            }
+            
+        }
+
+
+        public static async void ChooseTripIdToEdit(int userId)
+        {
+            try
+            {
+                
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+        
+        public static async void ChooseTripIdToDelete(int userId)
+        {
+            try
+            {
+                
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+        public static async void EditTripColumn(int userId, string command, string message)
+        {
+            var keyCommands = new Dictionary<string, string>();
+            keyCommands.Add("Место отправки", AdminCommandStep.ArrivalPlace.ToString());
+            keyCommands.Add("Дата отправки", AdminCommandStep.ArrivalDate.ToString());
+            keyCommands.Add("Время отправки", AdminCommandStep.ArrivalTime.ToString());
+            keyCommands.Add("Место прибытия", AdminCommandStep.DeparturePlace.ToString());
+            keyCommands.Add("Дата прибытия", AdminCommandStep.DepartureDate.ToString());
+            keyCommands.Add("Время прибытия", AdminCommandStep.DepartureTime.ToString());
+
+            if (keyCommands.ContainsKey(command))
+            {
+                
+            }
+            
+        }
         
         public static async void SetDeparturePlace(int userId, string message)
         {
@@ -19,7 +105,7 @@ namespace TelegramBot
                 var temp = message;
                 if (message == "Назад")
                 {
-                    AdminCommand.EditTimetable(userId);
+                    EditTimetable(userId);
                 }
                 if (message == "Отмена")
                 {
@@ -169,7 +255,7 @@ namespace TelegramBot
                 {
                     DataBaseContextAdmin.UpdateTripColumn(DataBaseContextAdmin.GetTripId(userId), 
                         AdminCommandStep.ArrivalTime.ToString(), temp);
-                    AdminCommand.EditTimetable(userId);
+                    EditTimetable(userId);
                 }
             }
             catch (Exception e)
