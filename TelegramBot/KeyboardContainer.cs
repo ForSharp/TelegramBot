@@ -53,8 +53,26 @@ namespace TelegramBot
 
             return replyKeyboard;
         }
-
+        
         public static ReplyKeyboardMarkup CreateTimetableEditKeyboard()
+        {
+            var replyKeyboard = new ReplyKeyboardMarkup(new[]
+            {
+                new[]
+                {
+                    new KeyboardButton("Добавить рейс"),
+                    new KeyboardButton("Редактировать рейс"),
+                    new KeyboardButton("Удалить рейс")
+                },
+                new[]
+                {
+                    new KeyboardButton("Отмена")
+                }
+            }, true, true);
+            return replyKeyboard;
+        }
+        
+        public static ReplyKeyboardMarkup CreateTimetableEditTripKeyboard()
         {
             var replyKeyboard = new ReplyKeyboardMarkup(new[]
             {
