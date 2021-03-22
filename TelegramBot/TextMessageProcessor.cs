@@ -14,7 +14,7 @@ namespace TelegramBot
             
             try
             {
-                var replyKeyboard = CreateDefaultButtons();
+                var replyKeyboard = KeyboardContainer.CreateDefaultKeyboard();
                 
                 await BotController.Bot.SendTextMessageAsync(messageEventArgs.Message.From.Id, $"Здравствуйте, " +
                     $"{messageEventArgs.Message.From.FirstName}! \nПожалуйста, воспользуйтесь кнопками для начала работы", 
@@ -25,24 +25,7 @@ namespace TelegramBot
                 Console.WriteLine($"Error: {ex}");
             }
         }
-
-        public static ReplyKeyboardMarkup CreateDefaultButtons()
-        {
-            var replyKeyboard = new ReplyKeyboardMarkup(new[]
-            {
-                new[]
-                {
-                    new KeyboardButton("Меню"),
-                    new KeyboardButton("Контакты")
-                },
-                new[]
-                {
-                    new KeyboardButton("Заказать звонок"),
-                    new KeyboardButton("Показать на карте")
-                }
-            }, true, true);
-            return replyKeyboard;
-        }
+        
         
 
         public static async void CreateStartStatement(MessageEventArgs messageEventArgs)

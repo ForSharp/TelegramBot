@@ -124,18 +124,21 @@ namespace TelegramBot
                         DataBaseContextAdmin.AddTrip();
                         DataBaseContextAdmin.SetTripId(userId, DataBaseContextAdmin.GetLastTripId());
                         DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.DeparturePlace);
-                        await BotController.Bot.SendTextMessageAsync(userId, "Откуда рейс?", replyMarkup: AdminCommand.CreateSimpleKeyboard());
+                        await BotController.Bot.SendTextMessageAsync(userId, "Откуда рейс?", 
+                            replyMarkup: KeyboardContainer.CreateTwoKeyboardAdminButtons());
                     }
                     if (message == "Редактировать рейс")
                     {
                         TimetableEditor.ChooseTripIdToEdit(userId);
-                        await BotController.Bot.SendTextMessageAsync(userId, "Введите ID рейса для редактирования.", replyMarkup: AdminCommand.CreateSimpleKeyboard());
+                        await BotController.Bot.SendTextMessageAsync(userId, "Введите ID рейса для редактирования.", 
+                            replyMarkup: KeyboardContainer.CreateTwoKeyboardAdminButtons());
                         DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.SetTripColumnEdit);
                     }
                     if (message == "Удалить рейс")
                     {
                         TimetableEditor.ChooseTripIdToDelete(userId);
-                        await BotController.Bot.SendTextMessageAsync(userId, "Введите ID рейса для удаления.");
+                        await BotController.Bot.SendTextMessageAsync(userId, "Введите ID рейса для удаления.",
+                            replyMarkup: KeyboardContainer.CreateTwoKeyboardAdminButtons());
                         DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.SetTripColumnDel);
                     }
                     if (message == "Отмена")
@@ -170,7 +173,7 @@ namespace TelegramBot
         private static async void Undo(int userId)
         {
             await BotController.Bot.SendTextMessageAsync(userId, "Для вывода команд введите /admin",
-                replyMarkup: TextMessageProcessor.CreateDefaultButtons());
+                replyMarkup: KeyboardContainer.CreateDefaultKeyboard());
             DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.Default);
         }
         
