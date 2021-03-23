@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks.Dataflow;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -24,8 +25,10 @@ namespace TelegramBot.InlinePanels
                     messageId: messageId,
                     media: new InputMediaPhoto(new InputMedia(DataConnection.GetImage("Timetable"), "Timetable.png")),
                     replyMarkup: inlineKeyBoard);
-                
-                await BotController.Bot.EditMessageCaptionAsync(userId, messageId, "Расписание", replyMarkup: inlineKeyBoard);
+
+                string timetable = String.Join(null, DataBaseContext.GetTimetableTrips());
+
+                await BotController.Bot.EditMessageCaptionAsync(userId, messageId, $"Расписание: \n\n{timetable}", replyMarkup: inlineKeyBoard);
                 
                 DataBaseContext.SetStepId(userId, (int)InlinePanelStep.Timetable);
             }

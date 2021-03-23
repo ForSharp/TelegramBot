@@ -1,8 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using Telegram.Bot.Args;
-using Telegram.Bot.Types.ReplyMarkups;
 
 namespace TelegramBot
 {
