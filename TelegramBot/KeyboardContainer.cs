@@ -15,7 +15,10 @@ namespace TelegramBot
                 },
                 new[]
                 {
-                    new KeyboardButton("Заказать звонок"),
+                    new KeyboardButton("Заказать звонок")
+                    {
+                        RequestContact = true
+                    },
                     new KeyboardButton("Показать на карте")
                 }
             }, true, true);

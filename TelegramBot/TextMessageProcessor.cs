@@ -37,7 +37,7 @@ namespace TelegramBot
 
         public static async void ShowInTheMap(int userId)
         {
-            await BotController.Bot.SendLocationAsync(userId, 45.0386671f, 39.066130f);
+            await BotController.Bot.SendLocationAsync(userId, 45.033445f, 39.045229f);
         }
 
         public static async void SendContacts(int userId)
@@ -46,21 +46,29 @@ namespace TelegramBot
 Страна: Россия
 Регион: Краснодарский край
 Индекс: 350059
+
 Адрес: 
-г.Краснодар, ул.Новороссийская, 238/1
+г.Краснодар, ул. Уральская, 75к2, 
+помещение 202,204
+
 Телефоны:
-8(861)204-00-13
-8(928)454-00-13
++79298455400
++78612040013
++79284540013
+
 E-mail: info@planeta-grupp.ru
+
 Время работы:
 пн-чт: 8:30-17:30
 пт:    8:30-16:30
 сб-вс: выходной");
         }
 
-        public static async void GetUserNumber(int userId)
+        public static async void GetUserNumber(MessageEventArgs messageEventArgs, int userId)
         {
             await BotController.Bot.SendTextMessageAsync(userId, "GetUserNumber");
+            
+            //var phoneNumber = messageEventArgs.Message.Contact.PhoneNumber;
         }
 
         public static async void SendAiAnswer(int userId, string message)

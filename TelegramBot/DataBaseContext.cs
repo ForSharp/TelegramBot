@@ -153,7 +153,7 @@ namespace TelegramBot
             
             try
             {
-                var connection = DataBaseContext.ConnectSqLite();
+                var connection = ConnectSqLite();
                 connection.Open();
                 SQLiteCommand sqLiteCommand = connection.CreateCommand();
                 sqLiteCommand.CommandText =

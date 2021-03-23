@@ -1,5 +1,4 @@
 ﻿using System;
-using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -29,12 +28,18 @@ namespace TelegramBot.InlinePanels
 Страна: Россия
 Регион: Краснодарский край
 Индекс: 350059
+
 Адрес: 
-г.Краснодар, ул.Новороссийская, 238/1
+г.Краснодар, ул. Уральская, 75к2, 
+помещение 202,204
+
 Телефоны:
-8(861)204-00-13
-8(928)454-00-13
++79298455400
++78612040013
++79284540013
+
 E-mail: info@planeta-grupp.ru
+
 Время работы:
 пн-чт: 8:30-17:30
 пт:    8:30-16:30

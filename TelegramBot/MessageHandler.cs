@@ -138,7 +138,7 @@ namespace TelegramBot
                     TextMessageProcessor.SendContacts(userId);
                     break;
                 case "заказать звонок":
-                    TextMessageProcessor.GetUserNumber(userId);
+                    TextMessageProcessor.GetUserNumber(messageEventArgs, userId);
                     break;
                 case "показать на карте":
                     TextMessageProcessor.ShowInTheMap(userId);

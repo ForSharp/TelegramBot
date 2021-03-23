@@ -1,5 +1,4 @@
 ﻿using System;
-using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -11,7 +10,7 @@ namespace TelegramBot.InlinePanels
         {
             try
             {
-                string[] news = new string[5]
+                string[] news = 
                 {
                     "http://planeta-grupp.ru/news/postuplenie-novyh-modeley-svetilnikov-brixoll-0",
                     "http://planeta-grupp.ru/news/cena-na-kabel-eshche-nizhe",
