@@ -168,6 +168,12 @@ namespace TelegramBot
                 case (int) AdminCommandStep.SetTripColumnDel:
                     TimetableEditor.ChooseTripIdToDelete(userId, message);
                     break;
+                case (int) AdminCommandStep.ChooseTripColumn:
+                    TimetableEditor.ChooseTripColumn(userId, message);
+                    break;
+                case (int) AdminCommandStep.EditTripColumn:
+                    TimetableEditor.EditTripColumn(userId, message);
+                    break;
             }
         }
 
