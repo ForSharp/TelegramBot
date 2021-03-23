@@ -257,12 +257,12 @@ namespace TelegramBot
                 sqLiteCommand.CommandText = 
                     "INSERT INTO Timetable VALUES(@TripId, @DeparturePlace, @DepartureDate, @DepartureTime, @ArrivalPlace, @ArrivalDate, @ArrivalTime)";
                 sqLiteCommand.Parameters.AddWithValue("@TripId", null);
-                sqLiteCommand.Parameters.AddWithValue("@DeparturePlace", null);
-                sqLiteCommand.Parameters.AddWithValue("@DepartureDate", null);
-                sqLiteCommand.Parameters.AddWithValue("@DepartureTime", null);
-                sqLiteCommand.Parameters.AddWithValue("@ArrivalPlace", null);
-                sqLiteCommand.Parameters.AddWithValue("@ArrivalDate", null);
-                sqLiteCommand.Parameters.AddWithValue("@ArrivalTime", null);
+                sqLiteCommand.Parameters.AddWithValue("@DeparturePlace", "DeparturePlace");
+                sqLiteCommand.Parameters.AddWithValue("@DepartureDate", "DepartureDate");
+                sqLiteCommand.Parameters.AddWithValue("@DepartureTime", "DepartureTime");
+                sqLiteCommand.Parameters.AddWithValue("@ArrivalPlace", "ArrivalPlace");
+                sqLiteCommand.Parameters.AddWithValue("@ArrivalDate", "ArrivalDate");
+                sqLiteCommand.Parameters.AddWithValue("@ArrivalTime", "ArrivalTime");
                 sqLiteCommand.ExecuteNonQuery();
                 connection.Close();
             }
@@ -420,8 +420,6 @@ namespace TelegramBot
             }
         }
 
-        
-        
         public static string[] GetTimetableTripsWithId()
         {
             var numbTrip = 0;
@@ -461,8 +459,7 @@ namespace TelegramBot
                 return trips.ToArray();
             }
         }
-        
-        
+
         public static void DeleteTrip(int tripId)
         {
             try

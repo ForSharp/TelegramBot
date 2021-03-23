@@ -16,8 +16,7 @@
         EditTimetable = 400,
         ChooseTripColumn = 500,
         EditTripColumn = 600,
-        SetTripColumnEdit = 700,
-        SetTripColumnDel = 701,
-        DeleteTrip = 800
+        SetTripIdEdit = 700,
+        SetTripIdDel = 701
     }
 }
