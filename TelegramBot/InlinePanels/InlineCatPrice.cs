@@ -14,11 +14,13 @@ namespace TelegramBot.InlinePanels
                 {
                     new[]
                     {
-                        InlineKeyboardButton.WithCallbackData("Каталоги продукции")
+                        InlineKeyboardButton.WithCallbackData("Каталоги продукции"),
+                        InlineKeyboardButton.WithCallbackData("Прайс листы")
                     },
                     new[]
                     {
-                        InlineKeyboardButton.WithCallbackData("Прайс листы")
+                        
+                        InlineKeyboardButton.WithCallbackData("Начало")
                     }
                 });
 

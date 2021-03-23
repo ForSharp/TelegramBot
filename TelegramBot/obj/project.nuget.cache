@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "2DJ1/t3O8JVwWSwLoyjp3XbRSHW9OlTf10A+Cdm38e4uIiTGZUGIFysORXxIme8RAARBIwZK1ATatqaz1fvIdQ==",
+  "dgSpecHash": "J4GizGNWrzwGRHNBc30b0HTCz7rHXtFQZSWkFi2vc0NvZFepOdM7N+OFU4GnyqYbwEdHiHrZfZS3L8Q6btKv9Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\Nikita\\RiderProjects\\TelegramBot\\TelegramBot\\TelegramBot.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Nikita\\.nuget\\packages\\apiaisdk\\1.6.5\\apiaisdk.1.6.5.nupkg.sha512",
     "C:\\Users\\Nikita\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\Nikita\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\Nikita\\.nuget\\packages\\microsoft.win32.primitives\\4.3.0\\microsoft.win32.primitives.4.3.0.nupkg.sha512",
@@ -84,5 +85,16 @@
     "C:\\Users\\Nikita\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\Nikita\\.nuget\\packages\\telegram.bot\\15.7.1\\telegram.bot.15.7.1.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'ApiAiSDK 1.6.5' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "libraryId": "ApiAiSDK",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    }
+  ]
 }

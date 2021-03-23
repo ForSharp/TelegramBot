@@ -2,6 +2,18 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v3.1": {
+      "ApiAiSDK/1.6.5": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "7.0.1"
+        },
+        "compile": {
+          "lib/net35/ApiAiSDK.dll": {}
+        },
+        "runtime": {
+          "lib/net35/ApiAiSDK.dll": {}
+        }
+      },
       "Microsoft.NETCore.Platforms/1.1.0": {
         "type": "package",
         "compile": {
@@ -1295,6 +1307,20 @@
     }
   },
   "libraries": {
+    "ApiAiSDK/1.6.5": {
+      "sha512": "yo81xpa0clRQOcBuZYpC+9Mlo/3wzPu9htK6Opmzo0CIu9lkrMzaK8xFB+DpzqPwt4Bt0UdT/n0WkedFit74Tw==",
+      "type": "package",
+      "path": "apiaisdk/1.6.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "apiaisdk.1.6.5.nupkg.sha512",
+        "apiaisdk.nuspec",
+        "lib/net35/ApiAiSDK.dll",
+        "lib/uap10.0/ApiAiSDK.dll",
+        "lib/wpa/ApiAiSDK.dll"
+      ]
+    },
     "Microsoft.NETCore.Platforms/1.1.0": {
       "sha512": "kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
       "type": "package",
@@ -4766,6 +4792,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "ApiAiSDK >= 1.6.5",
       "System.Data.SQLite.Core >= 1.0.113.7",
       "Telegram.Bot >= 15.7.1"
     ]
@@ -4812,6 +4839,10 @@
     "frameworks": {
       "netcoreapp3.1": {
         "dependencies": {
+          "ApiAiSDK": {
+            "target": "Package",
+            "version": "[1.6.5, )"
+          },
           "System.Data.SQLite.Core": {
             "target": "Package",
             "version": "[1.0.113.7, )"
@@ -4839,5 +4870,17 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'ApiAiSDK 1.6.5' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "libraryId": "ApiAiSDK",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    }
+  ]
 }

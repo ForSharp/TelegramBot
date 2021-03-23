@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types.Enums;
@@ -8,6 +9,7 @@ namespace TelegramBot
 {
     public static class MessageHandler
     {
+
         public static void HandleSenderMessage(string sender, MessageEventArgs messageEventArgs)
         {
             var msgType = messageEventArgs.Message.Type;
@@ -111,15 +113,18 @@ namespace TelegramBot
 
         private static void HandleMessageTypeText(string sender, MessageEventArgs messageEventArgs)
         {
-            
-            Console.WriteLine($"{sender} отправил текстовое сообщение: {messageEventArgs.Message.Text}", true, Encoding.Unicode);
+            var userId = messageEventArgs.Message.From.Id;
+            var message = messageEventArgs.Message.Text;
+            Console.WriteLine($"{sender} отправил текстовое сообщение: {message}", true, Encoding.Unicode);
             
             AdminCommandHandler.HandleAdminCommands(messageEventArgs);
+
+            var keyCommands = new[]{"/admin", "/appoint", "/timetable", "/message" };
             
-            if(DataBaseContextAdmin.GetCommandId(messageEventArgs.Message.From.Id) != (int) AdminCommandStep.Default)
+            if(DataBaseContextAdmin.GetCommandId(userId) != (int) AdminCommandStep.Default)
                 return;
             
-            switch (messageEventArgs.Message.Text.ToLower().Trim())
+            switch (message.ToLower().Trim())
             {
                 case "/start":
                     DataBaseContext.RegisterUser(messageEventArgs);
@@ -130,23 +135,25 @@ namespace TelegramBot
                     inlineMenu.RunCreatingProcess(messageEventArgs, true);
                     break;
                 case "контакты":
-                    TextMessageProcessor.SendContacts(messageEventArgs);
+                    TextMessageProcessor.SendContacts(userId);
                     break;
                 case "заказать звонок":
-                    TextMessageProcessor.GetUserNumber(messageEventArgs);
+                    TextMessageProcessor.GetUserNumber(userId);
                     break;
                 case "показать на карте":
-                    TextMessageProcessor.ShowInTheMap(messageEventArgs);
-                    break;
-                case "test":
-                    DataBaseContextAdmin.AddTrip();
+                    TextMessageProcessor.ShowInTheMap(userId);
                     break;
                 default:
+                    if (!keyCommands.Contains(message))
+                    {
+                        TextMessageProcessor.SendAiAnswer(userId, message);
+                    }
                     break;
             }
-
         }
-        
+
+        #region HandlingAnotherTypes
+
         private static void HandleMessageTypeUnknown()
         {
             
@@ -291,5 +298,7 @@ namespace TelegramBot
         {
             
         }
+        
+        #endregion
     }
 }

@@ -8,11 +8,23 @@
     ".NETCoreApp,Version=v3.1": {
       "TelegramBot/1.0.0": {
         "dependencies": {
+          "ApiAiSDK": "1.6.5",
           "System.Data.SQLite.Core": "1.0.113.7",
           "Telegram.Bot": "15.7.1"
         },
         "runtime": {
           "TelegramBot.dll": {}
+        }
+      },
+      "ApiAiSDK/1.6.5": {
+        "dependencies": {
+          "Newtonsoft.Json": "11.0.2"
+        },
+        "runtime": {
+          "lib/net35/ApiAiSDK.dll": {
+            "assemblyVersion": "1.6.5.0",
+            "fileVersion": "1.6.5.0"
+          }
         }
       },
       "Microsoft.NETCore.Platforms/1.1.0": {},
@@ -769,6 +781,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "ApiAiSDK/1.6.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-yo81xpa0clRQOcBuZYpC+9Mlo/3wzPu9htK6Opmzo0CIu9lkrMzaK8xFB+DpzqPwt4Bt0UdT/n0WkedFit74Tw==",
+      "path": "apiaisdk/1.6.5",
+      "hashPath": "apiaisdk.1.6.5.nupkg.sha512"
     },
     "Microsoft.NETCore.Platforms/1.1.0": {
       "type": "package",

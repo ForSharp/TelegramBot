@@ -8,6 +8,7 @@ namespace TelegramBot
         private const string DataFilePath = "DataFile.txt";
         private const string TokenInFile = "TelegramBotToken=";
         private const string PathInFile = "Data Source=";
+        private const string PathToDataBase = "TgBotDataBase.db";
         
         private static FileStream _dataFile;
         
@@ -59,11 +60,9 @@ namespace TelegramBot
                 
                 Console.Write(TokenInFile);
                 var telegramBotToken = Console.ReadLine();
-                Console.Write(PathInFile);
-                var pathToDataBase = Console.ReadLine();
                 
                 dataFileOut.WriteLine($"{TokenInFile}{telegramBotToken}");
-                dataFileOut.WriteLine($"{PathInFile}{pathToDataBase}");
+                dataFileOut.WriteLine($"{PathInFile}{PathToDataBase}");
             }
             catch (IOException e)
             {
@@ -115,8 +114,5 @@ namespace TelegramBot
             FileStream fileStream = new FileStream($@"Images\{imageName}.png", FileMode.Open, FileAccess.Read);
             return fileStream;
         }
-
-     
-    
     }
 }

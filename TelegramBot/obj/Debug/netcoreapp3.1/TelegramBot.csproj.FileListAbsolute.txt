@@ -40,3 +40,4 @@ C:\Users\Nikita\RiderProjects\TelegramBot\TelegramBot\obj\Debug\netcoreapp3.1\Te
 C:\Users\Nikita\RiderProjects\TelegramBot\TelegramBot\obj\Debug\netcoreapp3.1\TelegramBot.dll
 C:\Users\Nikita\RiderProjects\TelegramBot\TelegramBot\obj\Debug\netcoreapp3.1\TelegramBot.pdb
 C:\Users\Nikita\RiderProjects\TelegramBot\TelegramBot\obj\Debug\netcoreapp3.1\TelegramBot.genruntimeconfig.cache
+C:\Users\Nikita\RiderProjects\TelegramBot\TelegramBot\bin\Debug\netcoreapp3.1\ApiAiSDK.dll

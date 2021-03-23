@@ -1,5 +1,4 @@
 ﻿using System;
-using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -28,6 +27,10 @@ namespace TelegramBot.InlinePanels
                     new[]
                     {
                         InlineKeyboardButton.WithCallbackData("Расписание рейсов")
+                    },
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData("Начало")
                     }
                 });
             

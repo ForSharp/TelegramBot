@@ -8,7 +8,7 @@ namespace TelegramBot
     {
         private static readonly string[] KeyWords = {"Подтвердить", "Отмена", "Назад"};
 
-        public static async void EditTimetable(int userId)
+        public static async void StartEditTimetable(int userId)
         {
             try
             {
@@ -21,6 +21,34 @@ namespace TelegramBot
             catch (Exception e)
             {
                 Console.WriteLine(e);
+            }
+        }
+
+        public static async void EditTimetable(int userId, string message)
+        {
+            if (message == "Добавить рейс")
+            {
+                DataBaseContextAdmin.AddTrip();
+                DataBaseContextAdmin.SetTripId(userId, DataBaseContextAdmin.GetLastTripId());
+                DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.DeparturePlace);
+                await BotController.Bot.SendTextMessageAsync(userId, "Откуда рейс?", 
+                    replyMarkup: KeyboardContainer.CreateTwoKeyboardAdminButtons());
+            }
+            if (message == "Редактировать рейс")
+            {
+                await BotController.Bot.SendTextMessageAsync(userId, "Введите ID рейса для редактирования.", 
+                    replyMarkup: KeyboardContainer.CreateTwoKeyboardAdminButtons());
+                DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.SetTripIdEdit);
+            }
+            if (message == "Удалить рейс")
+            {
+                await BotController.Bot.SendTextMessageAsync(userId, "Введите ID рейса для удаления.",
+                    replyMarkup: KeyboardContainer.CreateTwoKeyboardAdminButtons());
+                DataBaseContextAdmin.SetCommandId(userId, (int) AdminCommandStep.SetTripIdDel);
+            }
+            if (message == "Отмена")
+            {
+                Undo(userId);
             }
         }
 
@@ -46,7 +74,7 @@ namespace TelegramBot
                 var temp = message;
                 if (message == "Назад")
                 {
-                    EditTimetable(userId);
+                    StartEditTimetable(userId);
                 }
                 else if (message == "Отмена") 
                 {
@@ -81,7 +109,7 @@ namespace TelegramBot
                 var temp = message;
                 if (message == "Назад")
                 {
-                    EditTimetable(userId);
+                    StartEditTimetable(userId);
                 }
                 else if (message == "Отмена")
                 {
@@ -98,7 +126,7 @@ namespace TelegramBot
                         await BotController.Bot.SendTextMessageAsync(userId, "Введите существующий ID рейса.");
                     }
                     DataBaseContextAdmin.DeleteTrip(tempInt);
-                    EditTimetable(userId);
+                    StartEditTimetable(userId);
                 }
             }
             catch (Exception e)
@@ -165,7 +193,7 @@ namespace TelegramBot
                 else
                 {
                     DataBaseContextAdmin.UpdateTripColumn(DataBaseContextAdmin.GetTripId(userId), DataBaseContextAdmin.GetColumn(userId), message);
-                    EditTimetable(userId);
+                    StartEditTimetable(userId);
                 }
             }
             catch (Exception e)
@@ -181,7 +209,7 @@ namespace TelegramBot
                 var temp = message;
                 if (message == "Назад")
                 {
-                    EditTimetable(userId);
+                    StartEditTimetable(userId);
                 }
                 if (message == "Отмена")
                 {
@@ -331,7 +359,7 @@ namespace TelegramBot
                 {
                     DataBaseContextAdmin.UpdateTripColumn(DataBaseContextAdmin.GetTripId(userId), 
                         AdminCommandStep.ArrivalTime.ToString(), temp);
-                    EditTimetable(userId);
+                    StartEditTimetable(userId);
                 }
             }
             catch (Exception e)
