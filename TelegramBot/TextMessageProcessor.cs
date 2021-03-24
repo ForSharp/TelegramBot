@@ -66,9 +66,17 @@ E-mail: info@planeta-grupp.ru
 
         public static async void GetUserNumber(MessageEventArgs messageEventArgs, int userId)
         {
-            await BotController.Bot.SendTextMessageAsync(userId, "GetUserNumber");
+            try
+            {
+                var phoneNumber = messageEventArgs.Message.Contact.PhoneNumber;
+                DataBaseContext.SetPhoneNumber(userId, phoneNumber);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                await BotController.Bot.SendTextMessageAsync(userId, e.Message);
+            }
             
-            //var phoneNumber = messageEventArgs.Message.Contact.PhoneNumber;
         }
 
         public static async void SendAiAnswer(int userId, string message)

@@ -31,6 +31,27 @@ namespace TelegramBot
             return _connectionDataBase;
         }
 
+        private static void InsertUsersInfo(int userId)
+        {
+            try
+            {
+                var connection = ConnectSqLite();
+                connection.Open();
+                SQLiteCommand sqLiteCommand = connection.CreateCommand();
+                sqLiteCommand.CommandText = "INSERT INTO UsersInfo VALUES(@UserId, @MessageId, @StepId, @Number)";
+                sqLiteCommand.Parameters.AddWithValue("@UserId", userId);
+                sqLiteCommand.Parameters.AddWithValue("@MessageId", 0);
+                sqLiteCommand.Parameters.AddWithValue("@StepId", (int)InlinePanelStep.Menu);
+                sqLiteCommand.Parameters.AddWithValue("@Number", null);
+                sqLiteCommand.ExecuteNonQuery();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+        
         public static void RegisterUser(MessageEventArgs messageEventArgs)
         {
             try
@@ -59,6 +80,8 @@ namespace TelegramBot
                 }
                 sqLiteCommand.ExecuteNonQuery();
                 connection.Close();
+                
+                InsertUsersInfo(messageEventArgs.Message.From.Id);
                 
                 Console.WriteLine("Пользователь зарегистрирован.");
             }
@@ -96,16 +119,13 @@ namespace TelegramBot
                 var connection = ConnectSqLite();
                 connection.Open();
                 SQLiteCommand sqLiteCommand = connection.CreateCommand();
-                sqLiteCommand.CommandText = "INSERT INTO UsersInfo VALUES(@UserId, @MessageId, @StepId)";
-                sqLiteCommand.Parameters.AddWithValue("@UserId", userId);
-                sqLiteCommand.Parameters.AddWithValue("@MessageId", messageId);
-                sqLiteCommand.Parameters.AddWithValue("@StepId", (int)InlinePanelStep.Menu);
+                sqLiteCommand.CommandText = $"UPDATE UsersInfo Set MessageId = {messageId} WHERE UserId = {userId}";
                 sqLiteCommand.ExecuteNonQuery();
                 connection.Close();
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e);
             }
         }
 
@@ -126,7 +146,7 @@ namespace TelegramBot
             }
         }
 
-        public static int GetStepId(CallbackQueryEventArgs callbackQueryEventArgs)
+        public static int GetStepId(int userId)
         {
             try
             {
@@ -134,7 +154,7 @@ namespace TelegramBot
                 connection.Open();
                 SQLiteCommand sqLiteCommand = connection.CreateCommand();
                 sqLiteCommand.CommandText =
-                    $"SELECT StepId FROM UsersInfo WHERE UserId = {callbackQueryEventArgs.CallbackQuery.From.Id}";
+                    $"SELECT StepId FROM UsersInfo WHERE UserId = {userId}";
                 var stepId = Convert.ToInt32(sqLiteCommand.ExecuteScalar());
                 connection.Close();
                 return stepId;
@@ -182,6 +202,43 @@ namespace TelegramBot
             {
                 Console.WriteLine(e);
                 return trips.ToArray();
+            }
+        }
+
+        public static void SetPhoneNumber(int userId, string number)
+        {
+            try
+            {
+                var connection = ConnectSqLite();
+                connection.Open();
+                SQLiteCommand sqLiteCommand = connection.CreateCommand();
+                sqLiteCommand.CommandText = $"UPDATE UsersInfo Set Number = {number} WHERE UserId = {userId}";
+                sqLiteCommand.ExecuteNonQuery();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+        public static string GetPhoneNumber(int userId)
+        {
+            try
+            {
+                var connection = ConnectSqLite();
+                connection.Open();
+                SQLiteCommand sqLiteCommand = connection.CreateCommand();
+                sqLiteCommand.CommandText =
+                    $"SELECT Number FROM UsersInfo WHERE UserId = {userId}";
+                var number = Convert.ToString(sqLiteCommand.ExecuteScalar());
+                connection.Close();
+                return number;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return e.Message;
             }
         }
     }

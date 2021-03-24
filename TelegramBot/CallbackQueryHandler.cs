@@ -8,7 +8,7 @@ namespace TelegramBot
     {
         public static void HandleCallbackQuery(string sender, CallbackQueryEventArgs callbackQueryEventArgs)
         {
-            var stepId = DataBaseContext.GetStepId(callbackQueryEventArgs);
+            var stepId = DataBaseContext.GetStepId(callbackQueryEventArgs.CallbackQuery.From.Id);
 
             ShowUsersActions(sender, callbackQueryEventArgs);
             
