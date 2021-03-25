@@ -233,7 +233,7 @@ namespace TelegramBot
                     $"SELECT Number FROM UsersInfo WHERE UserId = {userId}";
                 var number = Convert.ToString(sqLiteCommand.ExecuteScalar());
                 connection.Close();
-                return number;
+                return $"+{number}";
             }
             catch (Exception e)
             {

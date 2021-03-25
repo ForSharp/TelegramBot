@@ -44,7 +44,7 @@ namespace TelegramBot
                     HandleMessageTypeLocation();
                     break;
                 case MessageType.Contact:
-                    HandleMessageTypeContact();
+                    HandleMessageTypeContact(messageEventArgs, messageEventArgs.Message.From.Id);
                     break;
                 case MessageType.Venue:
                     HandleMessageTypeVenue();
@@ -138,7 +138,7 @@ namespace TelegramBot
                     TextMessageProcessor.SendContacts(userId);
                     break;
                 case "заказать звонок":
-                    TextMessageProcessor.GetUserNumber(messageEventArgs, userId);
+                    HandleMessageTypeContact(messageEventArgs, userId);
                     break;
                 case "показать на карте":
                     TextMessageProcessor.ShowInTheMap(userId);
@@ -194,8 +194,35 @@ namespace TelegramBot
             
         }
 
-        private static void HandleMessageTypeContact()
+        private static async void HandleMessageTypeContact(MessageEventArgs messageEventArgs, int userId)
         {
+            
+            try
+            {
+                var phoneNumber = messageEventArgs.Message.Contact.PhoneNumber;
+                await BotController.Bot.SendTextMessageAsync(userId, "Мы свяжемся с Вами в ближайшее время.");
+                DataBaseContext.SetPhoneNumber(userId, phoneNumber);
+
+                var customer = BotController.GetAvailableSenderName(messageEventArgs);
+
+                var admins = DataBaseContextAdmin.GetAllAdminId();
+                foreach (var admin in admins)
+                {
+                    try
+                    {
+                        await BotController.Bot.SendTextMessageAsync(admin, $"{customer} запросил звонок, " +
+                                                                            $"его номер: {DataBaseContext.GetPhoneNumber(userId)}");
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
             
         }
 

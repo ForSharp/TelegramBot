@@ -82,6 +82,32 @@ namespace TelegramBot
             }
         }
         
+        public static int[] GetAllAdminId()
+        {
+            var admins = new List<int>();
+            try
+            {
+                var connection = DataBaseContext.ConnectSqLite();
+                connection.Open();
+                SQLiteCommand sqLiteCommand = connection.CreateCommand();
+                sqLiteCommand.CommandText = @"SELECT UserId FROM AdminInfo WHERE IsAdmin = 1";
+                SQLiteDataReader sqLiteDataReader = sqLiteCommand.ExecuteReader();
+                while (sqLiteDataReader.Read())
+                {
+                    admins.Add(Convert.ToInt32(sqLiteDataReader[0]));
+                    admins.Sort();
+                }
+                sqLiteDataReader.Close();
+                connection.Close();
+                return admins.ToArray();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return admins.ToArray();
+            }
+        }
+        
         public static void ChangeUserStatus(string userName)
         {
             try
