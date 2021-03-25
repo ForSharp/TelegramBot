@@ -125,7 +125,9 @@ namespace TelegramBot
                 var users = DataBaseContextAdmin.GetAllUserNames();
                 var userNames = string.Join(", ", users);
                 await BotController.Bot.SendTextMessageAsync(userId,
-                    "Выберите и введите username пользователя, которого хотите назначить администратором.", 
+                    "Выберите и введите username пользователя, которого хотите назначить администратором. " +
+                    "Здесь показаны только те пользователи, которые имеют username. Если среди них нет нужного пользователя," +
+                    "он должен выставить username в настройках своего профиля Telegram и ввести /start в боте, тогда его данные обновятся.", 
                     replyMarkup: KeyboardContainer.CreateThreeKeyboardAdminButtons());
                 Thread.Sleep(10);
                 await BotController.Bot.SendTextMessageAsync(userId, userNames);
@@ -138,7 +140,7 @@ namespace TelegramBot
             }
         }
 
-        public static async void ConfirmUser(int userId, string userName)
+        private static async void ConfirmUser(int userId, string userName)
         {
             try
             {

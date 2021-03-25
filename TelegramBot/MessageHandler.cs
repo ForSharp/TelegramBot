@@ -138,7 +138,6 @@ namespace TelegramBot
                     TextMessageProcessor.SendContacts(userId);
                     break;
                 case "заказать звонок":
-                    HandleMessageTypeContact(messageEventArgs, userId);
                     break;
                 case "показать на карте":
                     TextMessageProcessor.ShowInTheMap(userId);
